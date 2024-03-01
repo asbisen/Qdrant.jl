@@ -3,12 +3,20 @@
 Julia wrapper to [Qdrant](https://qdrant.tech/) Vector Database. The code is mostly
 generated using their [OpenAPI spec](https://qdrant.github.io/qdrant/redoc/index.html). 
 
-WIP Notice: The code is very basic and does not include any safety checks. At best it's
+**WIP Notice:** The code is very basic and does not include any safety checks. At best it's
 work in progress.
 
-# Example Code
+## Environment
 
-## Create a Connection
+This code is being worked against a locally running Qdrant instance in a container using the 
+following command `docker run -p 6333:6333 qdrant/qdrant`
+
+This package is not registered and would need to be installed using the url to this 
+repository `using Pkg; Pkg.add("https://github.com/asbisen/Qdrant.jl.git")`
+
+## Example Code
+
+### Create a Connection
 
 ```julia
 using Qdrant
@@ -23,9 +31,9 @@ end
 connection = init()
 ```
 
-## Create a Collection
+### Create a Collection
 
-### Prefer low memory footprint with high speed search
+#### Prefer low memory footprint with high speed search
 
 The main way to achieve high speed search with low memory footprint is to keep vectors on 
 disk while at the same time minimizing the number of disk reads.
@@ -72,7 +80,7 @@ end
 collection = create_collection_example( connection, "MyCol1")
 ```
 
-### Prefer high precision with low memory footprint
+#### Prefer high precision with low memory footprint
 
 In case you need high precision, but don’t have enough RAM to store vectors in memory, you can enable on-disk vectors 
 and HNSW index. [Ref](https://qdrant.tech/documentation/guides/optimize/#prefer-high-precision-with-low-memory-footprint)
