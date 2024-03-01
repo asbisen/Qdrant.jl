@@ -1,9 +1,9 @@
 module Qdrant
 
-include("../codegen/src/RestApi.jl")
+include("../codegen/src/QdrantRestApi.jl")
 using Reexport
 
-@reexport using .RestApi
+@reexport using .QdrantRestApi
 
 
 end # module Qdrant
