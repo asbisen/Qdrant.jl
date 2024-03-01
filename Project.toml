@@ -1,0 +1,10 @@
+name = "Qdrant"
+uuid = "76119d23-220c-4456-b561-ceaed2975169"
+authors = ["Anand Bisen <asbisen@icloud.com>"]
+version = "0.1.0"
+
+[deps]
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+OpenAPI = "d5e62ea6-ddf3-4d43-8e4c-ad5e6c8bfd7d"
+Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
+TimeZones = "f269a46b-ccf7-5d73-abea-4c690281aa53"
