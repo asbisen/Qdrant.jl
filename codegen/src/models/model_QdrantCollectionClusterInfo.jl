@@ -11,6 +11,7 @@ Current clustering distribution for the collection
         local_shards=nothing,
         remote_shards=nothing,
         shard_transfers=nothing,
+        resharding_operations=nothing,
     )
 
     - peer_id::Int64 : ID of this peer
@@ -18,6 +19,7 @@ Current clustering distribution for the collection
     - local_shards::Vector{QdrantLocalShardInfo} : Local shards
     - remote_shards::Vector{QdrantRemoteShardInfo} : Remote shards
     - shard_transfers::Vector{QdrantShardTransferInfo} : Shard transfers
+    - resharding_operations::Vector{QdrantReshardingInfo} : Resharding operations
 """
 Base.@kwdef mutable struct QdrantCollectionClusterInfo <: OpenAPI.APIModel
     peer_id::Union{Nothing, Int64} = nothing
@@ -25,18 +27,20 @@ Base.@kwdef mutable struct QdrantCollectionClusterInfo <: OpenAPI.APIModel
     local_shards::Union{Nothing, Vector} = nothing # spec type: Union{ Nothing, Vector{QdrantLocalShardInfo} }
     remote_shards::Union{Nothing, Vector} = nothing # spec type: Union{ Nothing, Vector{QdrantRemoteShardInfo} }
     shard_transfers::Union{Nothing, Vector} = nothing # spec type: Union{ Nothing, Vector{QdrantShardTransferInfo} }
+    resharding_operations::Union{Nothing, Vector} = nothing # spec type: Union{ Nothing, Vector{QdrantReshardingInfo} }
 
-    function QdrantCollectionClusterInfo(peer_id, shard_count, local_shards, remote_shards, shard_transfers, )
+    function QdrantCollectionClusterInfo(peer_id, shard_count, local_shards, remote_shards, shard_transfers, resharding_operations, )
         OpenAPI.validate_property(QdrantCollectionClusterInfo, Symbol("peer_id"), peer_id)
         OpenAPI.validate_property(QdrantCollectionClusterInfo, Symbol("shard_count"), shard_count)
         OpenAPI.validate_property(QdrantCollectionClusterInfo, Symbol("local_shards"), local_shards)
         OpenAPI.validate_property(QdrantCollectionClusterInfo, Symbol("remote_shards"), remote_shards)
         OpenAPI.validate_property(QdrantCollectionClusterInfo, Symbol("shard_transfers"), shard_transfers)
-        return new(peer_id, shard_count, local_shards, remote_shards, shard_transfers, )
+        OpenAPI.validate_property(QdrantCollectionClusterInfo, Symbol("resharding_operations"), resharding_operations)
+        return new(peer_id, shard_count, local_shards, remote_shards, shard_transfers, resharding_operations, )
     end
 end # type QdrantCollectionClusterInfo
 
-const _property_types_QdrantCollectionClusterInfo = Dict{Symbol,String}(Symbol("peer_id")=>"Int64", Symbol("shard_count")=>"Int64", Symbol("local_shards")=>"Vector{QdrantLocalShardInfo}", Symbol("remote_shards")=>"Vector{QdrantRemoteShardInfo}", Symbol("shard_transfers")=>"Vector{QdrantShardTransferInfo}", )
+const _property_types_QdrantCollectionClusterInfo = Dict{Symbol,String}(Symbol("peer_id")=>"Int64", Symbol("shard_count")=>"Int64", Symbol("local_shards")=>"Vector{QdrantLocalShardInfo}", Symbol("remote_shards")=>"Vector{QdrantRemoteShardInfo}", Symbol("shard_transfers")=>"Vector{QdrantShardTransferInfo}", Symbol("resharding_operations")=>"Vector{QdrantReshardingInfo}", )
 OpenAPI.property_type(::Type{ QdrantCollectionClusterInfo }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantCollectionClusterInfo[name]))}
 
 function check_required(o::QdrantCollectionClusterInfo)
@@ -45,6 +49,7 @@ function check_required(o::QdrantCollectionClusterInfo)
     o.local_shards === nothing && (return false)
     o.remote_shards === nothing && (return false)
     o.shard_transfers === nothing && (return false)
+    o.resharding_operations === nothing && (return false)
     true
 end
 

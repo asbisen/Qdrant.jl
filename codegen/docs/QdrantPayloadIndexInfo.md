@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **data_type** | [***QdrantPayloadSchemaType**](QdrantPayloadSchemaType.md) |  | [default to nothing]
-**params** | [***QdrantTextIndexParams**](QdrantTextIndexParams.md) |  | [optional] [default to nothing]
+**params** | [***QdrantPayloadSchemaParams**](QdrantPayloadSchemaParams.md) |  | [optional] [default to nothing]
 **points** | **Int64** | Number of points indexed with this index | [default to nothing]
 
 

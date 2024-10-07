@@ -8,10 +8,10 @@
         replicate_shard=nothing,
     )
 
-    - replicate_shard::QdrantMoveShard
+    - replicate_shard::QdrantReplicateShard
 """
 Base.@kwdef mutable struct QdrantReplicateShardOperation <: OpenAPI.APIModel
-    replicate_shard = nothing # spec type: Union{ Nothing, QdrantMoveShard }
+    replicate_shard = nothing # spec type: Union{ Nothing, QdrantReplicateShard }
 
     function QdrantReplicateShardOperation(replicate_shard, )
         OpenAPI.validate_property(QdrantReplicateShardOperation, Symbol("replicate_shard"), replicate_shard)
@@ -19,7 +19,7 @@ Base.@kwdef mutable struct QdrantReplicateShardOperation <: OpenAPI.APIModel
     end
 end # type QdrantReplicateShardOperation
 
-const _property_types_QdrantReplicateShardOperation = Dict{Symbol,String}(Symbol("replicate_shard")=>"QdrantMoveShard", )
+const _property_types_QdrantReplicateShardOperation = Dict{Symbol,String}(Symbol("replicate_shard")=>"QdrantReplicateShard", )
 OpenAPI.property_type(::Type{ QdrantReplicateShardOperation }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantReplicateShardOperation[name]))}
 
 function check_required(o::QdrantReplicateShardOperation)

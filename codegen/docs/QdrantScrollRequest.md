@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **filter** | [***QdrantFilter**](QdrantFilter.md) |  | [optional] [default to nothing]
 **with_payload** | [***QdrantWithPayloadInterface**](QdrantWithPayloadInterface.md) |  | [optional] [default to nothing]
 **with_vector** | [***QdrantWithVector**](QdrantWithVector.md) |  | [optional] [default to nothing]
+**order_by** | [***QdrantOrderByInterface**](QdrantOrderByInterface.md) |  | [optional] [default to nothing]
 
 
 [[Back to Model list]](../README.md#models) [[Back to API list]](../README.md#api-endpoints) [[Back to README]](../README.md)

@@ -10,29 +10,33 @@ This data structure is used in API interface and applied across multiple shards
         points=nothing,
         filter=nothing,
         shard_key=nothing,
+        key=nothing,
     )
 
     - payload::Dict{String, Any}
     - points::Vector{QdrantExtendedPointId} : Assigns payload to each point in this list
     - filter::QdrantFilter
     - shard_key::QdrantShardKeySelector
+    - key::String : Assigns payload to each point that satisfy this path of property
 """
 Base.@kwdef mutable struct QdrantSetPayload <: OpenAPI.APIModel
     payload::Union{Nothing, Dict{String, Any}} = nothing
     points::Union{Nothing, Vector} = nothing # spec type: Union{ Nothing, Vector{QdrantExtendedPointId} }
     filter = nothing # spec type: Union{ Nothing, QdrantFilter }
     shard_key = nothing # spec type: Union{ Nothing, QdrantShardKeySelector }
+    key::Union{Nothing, String} = nothing
 
-    function QdrantSetPayload(payload, points, filter, shard_key, )
+    function QdrantSetPayload(payload, points, filter, shard_key, key, )
         OpenAPI.validate_property(QdrantSetPayload, Symbol("payload"), payload)
         OpenAPI.validate_property(QdrantSetPayload, Symbol("points"), points)
         OpenAPI.validate_property(QdrantSetPayload, Symbol("filter"), filter)
         OpenAPI.validate_property(QdrantSetPayload, Symbol("shard_key"), shard_key)
-        return new(payload, points, filter, shard_key, )
+        OpenAPI.validate_property(QdrantSetPayload, Symbol("key"), key)
+        return new(payload, points, filter, shard_key, key, )
     end
 end # type QdrantSetPayload
 
-const _property_types_QdrantSetPayload = Dict{Symbol,String}(Symbol("payload")=>"Dict{String, Any}", Symbol("points")=>"Vector{QdrantExtendedPointId}", Symbol("filter")=>"QdrantFilter", Symbol("shard_key")=>"QdrantShardKeySelector", )
+const _property_types_QdrantSetPayload = Dict{Symbol,String}(Symbol("payload")=>"Dict{String, Any}", Symbol("points")=>"Vector{QdrantExtendedPointId}", Symbol("filter")=>"QdrantFilter", Symbol("shard_key")=>"QdrantShardKeySelector", Symbol("key")=>"String", )
 OpenAPI.property_type(::Type{ QdrantSetPayload }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantSetPayload[name]))}
 
 function check_required(o::QdrantSetPayload)

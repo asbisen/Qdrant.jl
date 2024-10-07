@@ -7,23 +7,31 @@
     QdrantShardSnapshotRecover(;
         location=nothing,
         priority=nothing,
+        checksum=nothing,
+        api_key=nothing,
     )
 
     - location::QdrantShardSnapshotLocation
     - priority::QdrantSnapshotPriority
+    - checksum::String : Optional SHA256 checksum to verify snapshot integrity before recovery.
+    - api_key::String : Optional API key used when fetching the snapshot from a remote URL.
 """
 Base.@kwdef mutable struct QdrantShardSnapshotRecover <: OpenAPI.APIModel
     location = nothing # spec type: Union{ Nothing, QdrantShardSnapshotLocation }
     priority = nothing # spec type: Union{ Nothing, QdrantSnapshotPriority }
+    checksum::Union{Nothing, String} = nothing
+    api_key::Union{Nothing, String} = nothing
 
-    function QdrantShardSnapshotRecover(location, priority, )
+    function QdrantShardSnapshotRecover(location, priority, checksum, api_key, )
         OpenAPI.validate_property(QdrantShardSnapshotRecover, Symbol("location"), location)
         OpenAPI.validate_property(QdrantShardSnapshotRecover, Symbol("priority"), priority)
-        return new(location, priority, )
+        OpenAPI.validate_property(QdrantShardSnapshotRecover, Symbol("checksum"), checksum)
+        OpenAPI.validate_property(QdrantShardSnapshotRecover, Symbol("api_key"), api_key)
+        return new(location, priority, checksum, api_key, )
     end
 end # type QdrantShardSnapshotRecover
 
-const _property_types_QdrantShardSnapshotRecover = Dict{Symbol,String}(Symbol("location")=>"QdrantShardSnapshotLocation", Symbol("priority")=>"QdrantSnapshotPriority", )
+const _property_types_QdrantShardSnapshotRecover = Dict{Symbol,String}(Symbol("location")=>"QdrantShardSnapshotLocation", Symbol("priority")=>"QdrantSnapshotPriority", Symbol("checksum")=>"String", Symbol("api_key")=>"String", )
 OpenAPI.property_type(::Type{ QdrantShardSnapshotRecover }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantShardSnapshotRecover[name]))}
 
 function check_required(o::QdrantShardSnapshotRecover)

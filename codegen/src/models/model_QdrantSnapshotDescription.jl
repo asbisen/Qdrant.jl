@@ -8,26 +8,30 @@
         name=nothing,
         creation_time=nothing,
         size=nothing,
+        checksum=nothing,
     )
 
     - name::String
     - creation_time::String
     - size::Int64
+    - checksum::String
 """
 Base.@kwdef mutable struct QdrantSnapshotDescription <: OpenAPI.APIModel
     name::Union{Nothing, String} = nothing
     creation_time::Union{Nothing, String} = nothing
     size::Union{Nothing, Int64} = nothing
+    checksum::Union{Nothing, String} = nothing
 
-    function QdrantSnapshotDescription(name, creation_time, size, )
+    function QdrantSnapshotDescription(name, creation_time, size, checksum, )
         OpenAPI.validate_property(QdrantSnapshotDescription, Symbol("name"), name)
         OpenAPI.validate_property(QdrantSnapshotDescription, Symbol("creation_time"), creation_time)
         OpenAPI.validate_property(QdrantSnapshotDescription, Symbol("size"), size)
-        return new(name, creation_time, size, )
+        OpenAPI.validate_property(QdrantSnapshotDescription, Symbol("checksum"), checksum)
+        return new(name, creation_time, size, checksum, )
     end
 end # type QdrantSnapshotDescription
 
-const _property_types_QdrantSnapshotDescription = Dict{Symbol,String}(Symbol("name")=>"String", Symbol("creation_time")=>"String", Symbol("size")=>"Int64", )
+const _property_types_QdrantSnapshotDescription = Dict{Symbol,String}(Symbol("name")=>"String", Symbol("creation_time")=>"String", Symbol("size")=>"Int64", Symbol("checksum")=>"String", )
 OpenAPI.property_type(::Type{ QdrantSnapshotDescription }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantSnapshotDescription[name]))}
 
 function check_required(o::QdrantSnapshotDescription)

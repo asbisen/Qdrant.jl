@@ -8,7 +8,7 @@
     QdrantVector(; value=nothing)
 """
 mutable struct QdrantVector <: OpenAPI.AnyOfAPIModel
-    value::Any # Union{ QdrantSparseVector, Vector{Float32} }
+    value::Any # Union{ QdrantSparseVector, Vector{Float32}, Vector{Vector{Float32}} }
     QdrantVector() = new()
     QdrantVector(value) = new(value)
 end # type QdrantVector

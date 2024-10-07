@@ -5,7 +5,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**value** | This is a anyOf model. The value must be any of the following types: QdrantSparseVector, Vector{Float32} |  | [optional] 
+**value** | This is a anyOf model. The value must be any of the following types: QdrantSparseVector, Vector{Float32}, Vector{Vector{Float32}} |  | [optional] 
 
 
 

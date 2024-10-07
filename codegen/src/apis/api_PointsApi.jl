@@ -20,8 +20,8 @@ const _returntypes_batch_update_PointsApi = Dict{Regex,Type}(
 function _oacinternal_batch_update(_api::PointsApi, collection_name::String; wait=nothing, ordering=nothing, qdrant_update_operations=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_batch_update_PointsApi, "/collections/{collection_name}/points/batch", ["api-key", "bearerAuth", ], qdrant_update_operations)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
-    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering)  # type QdrantWriteOrdering
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering; style="form", is_explode=true)  # type QdrantWriteOrdering
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -58,8 +58,8 @@ const _returntypes_clear_payload_PointsApi = Dict{Regex,Type}(
 function _oacinternal_clear_payload(_api::PointsApi, collection_name::String; wait=nothing, ordering=nothing, qdrant_points_selector=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_clear_payload_PointsApi, "/collections/{collection_name}/points/payload/clear", ["api-key", "bearerAuth", ], qdrant_points_selector)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
-    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering)  # type QdrantWriteOrdering
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering; style="form", is_explode=true)  # type QdrantWriteOrdering
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -93,9 +93,12 @@ const _returntypes_count_points_PointsApi = Dict{Regex,Type}(
     Regex("^" * replace("0", "x"=>".") * "\$") => QdrantErrorResponse,
 )
 
-function _oacinternal_count_points(_api::PointsApi, collection_name::String; qdrant_count_request=nothing, _mediaType=nothing)
+function _oacinternal_count_points(_api::PointsApi, collection_name::String; timeout=nothing, qdrant_count_request=nothing, _mediaType=nothing)
+    OpenAPI.validate_param("timeout", "count_points", :minimum, timeout, 1, false)
+
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_count_points_PointsApi, "/collections/{collection_name}/points/count", ["api-key", "bearerAuth", ], qdrant_count_request)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -107,17 +110,18 @@ Count points which matches given filtering condition
 
 Params:
 - collection_name::String (required)
+- timeout::Int64
 - qdrant_count_request::QdrantCountRequest
 
 Return: QdrantCountPoints200Response, OpenAPI.Clients.ApiResponse
 """
-function count_points(_api::PointsApi, collection_name::String; qdrant_count_request=nothing, _mediaType=nothing)
-    _ctx = _oacinternal_count_points(_api, collection_name; qdrant_count_request=qdrant_count_request, _mediaType=_mediaType)
+function count_points(_api::PointsApi, collection_name::String; timeout=nothing, qdrant_count_request=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_count_points(_api, collection_name; timeout=timeout, qdrant_count_request=qdrant_count_request, _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx)
 end
 
-function count_points(_api::PointsApi, response_stream::Channel, collection_name::String; qdrant_count_request=nothing, _mediaType=nothing)
-    _ctx = _oacinternal_count_points(_api, collection_name; qdrant_count_request=qdrant_count_request, _mediaType=_mediaType)
+function count_points(_api::PointsApi, response_stream::Channel, collection_name::String; timeout=nothing, qdrant_count_request=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_count_points(_api, collection_name; timeout=timeout, qdrant_count_request=qdrant_count_request, _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx, response_stream)
 end
 
@@ -130,8 +134,8 @@ const _returntypes_delete_payload_PointsApi = Dict{Regex,Type}(
 function _oacinternal_delete_payload(_api::PointsApi, collection_name::String; wait=nothing, ordering=nothing, qdrant_delete_payload=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_delete_payload_PointsApi, "/collections/{collection_name}/points/payload/delete", ["api-key", "bearerAuth", ], qdrant_delete_payload)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
-    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering)  # type QdrantWriteOrdering
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering; style="form", is_explode=true)  # type QdrantWriteOrdering
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -168,8 +172,8 @@ const _returntypes_delete_points_PointsApi = Dict{Regex,Type}(
 function _oacinternal_delete_points(_api::PointsApi, collection_name::String; wait=nothing, ordering=nothing, qdrant_points_selector=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_delete_points_PointsApi, "/collections/{collection_name}/points/delete", ["api-key", "bearerAuth", ], qdrant_points_selector)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
-    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering)  # type QdrantWriteOrdering
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering; style="form", is_explode=true)  # type QdrantWriteOrdering
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -206,8 +210,8 @@ const _returntypes_delete_vectors_PointsApi = Dict{Regex,Type}(
 function _oacinternal_delete_vectors(_api::PointsApi, collection_name::String; wait=nothing, ordering=nothing, qdrant_delete_vectors=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_delete_vectors_PointsApi, "/collections/{collection_name}/points/vectors/delete", ["api-key", "bearerAuth", ], qdrant_delete_vectors)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
-    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering)  # type QdrantWriteOrdering
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering; style="form", is_explode=true)  # type QdrantWriteOrdering
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -246,8 +250,8 @@ function _oacinternal_discover_batch_points(_api::PointsApi, collection_name::St
 
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_discover_batch_points_PointsApi, "/collections/{collection_name}/points/discover/batch", ["api-key", "bearerAuth", ], qdrant_discover_request_batch)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency)  # type QdrantReadConsistency
-    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout)  # type Int64
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -286,8 +290,8 @@ function _oacinternal_discover_points(_api::PointsApi, collection_name::String; 
 
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_discover_points_PointsApi, "/collections/{collection_name}/points/discover", ["api-key", "bearerAuth", ], qdrant_discover_request)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency)  # type QdrantReadConsistency
-    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout)  # type Int64
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -325,7 +329,7 @@ function _oacinternal_get_point(_api::PointsApi, collection_name::String, id::Qd
     _ctx = OpenAPI.Clients.Ctx(_api.client, "GET", _returntypes_get_point_PointsApi, "/collections/{collection_name}/points/{id}", ["api-key", "bearerAuth", ])
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
     OpenAPI.Clients.set_param(_ctx.path, "id", id)  # type QdrantExtendedPointId
-    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -358,10 +362,13 @@ const _returntypes_get_points_PointsApi = Dict{Regex,Type}(
     Regex("^" * replace("0", "x"=>".") * "\$") => QdrantErrorResponse,
 )
 
-function _oacinternal_get_points(_api::PointsApi, collection_name::String; consistency=nothing, qdrant_point_request=nothing, _mediaType=nothing)
+function _oacinternal_get_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_point_request=nothing, _mediaType=nothing)
+    OpenAPI.validate_param("timeout", "get_points", :minimum, timeout, 1, false)
+
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_get_points_PointsApi, "/collections/{collection_name}/points", ["api-key", "bearerAuth", ], qdrant_point_request)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -374,17 +381,18 @@ Retrieve multiple points by specified IDs
 Params:
 - collection_name::String (required)
 - consistency::QdrantReadConsistency
+- timeout::Int64
 - qdrant_point_request::QdrantPointRequest
 
 Return: QdrantGetPoints200Response, OpenAPI.Clients.ApiResponse
 """
-function get_points(_api::PointsApi, collection_name::String; consistency=nothing, qdrant_point_request=nothing, _mediaType=nothing)
-    _ctx = _oacinternal_get_points(_api, collection_name; consistency=consistency, qdrant_point_request=qdrant_point_request, _mediaType=_mediaType)
+function get_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_point_request=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_get_points(_api, collection_name; consistency=consistency, timeout=timeout, qdrant_point_request=qdrant_point_request, _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx)
 end
 
-function get_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, qdrant_point_request=nothing, _mediaType=nothing)
-    _ctx = _oacinternal_get_points(_api, collection_name; consistency=consistency, qdrant_point_request=qdrant_point_request, _mediaType=_mediaType)
+function get_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, timeout=nothing, qdrant_point_request=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_get_points(_api, collection_name; consistency=consistency, timeout=timeout, qdrant_point_request=qdrant_point_request, _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx, response_stream)
 end
 
@@ -397,8 +405,8 @@ const _returntypes_overwrite_payload_PointsApi = Dict{Regex,Type}(
 function _oacinternal_overwrite_payload(_api::PointsApi, collection_name::String; wait=nothing, ordering=nothing, qdrant_set_payload=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "PUT", _returntypes_overwrite_payload_PointsApi, "/collections/{collection_name}/points/payload", ["api-key", "bearerAuth", ], qdrant_set_payload)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
-    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering)  # type QdrantWriteOrdering
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering; style="form", is_explode=true)  # type QdrantWriteOrdering
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -426,6 +434,126 @@ function overwrite_payload(_api::PointsApi, response_stream::Channel, collection
     return OpenAPI.Clients.exec(_ctx, response_stream)
 end
 
+const _returntypes_query_batch_points_PointsApi = Dict{Regex,Type}(
+    Regex("^" * replace("200", "x"=>".") * "\$") => QdrantQueryBatchPoints200Response,
+    Regex("^" * replace("4XX", "x"=>".") * "\$") => QdrantErrorResponse,
+    Regex("^" * replace("0", "x"=>".") * "\$") => QdrantErrorResponse,
+)
+
+function _oacinternal_query_batch_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_request_batch=nothing, _mediaType=nothing)
+    OpenAPI.validate_param("timeout", "query_batch_points", :minimum, timeout, 1, false)
+
+    _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_query_batch_points_PointsApi, "/collections/{collection_name}/points/query/batch", ["api-key", "bearerAuth", ], qdrant_query_request_batch)
+    OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
+    OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
+    OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
+    return _ctx
+end
+
+@doc raw"""Query points in batch
+
+Universally query points in batch. This endpoint covers all capabilities of search, recommend, discover, filters. But also enables hybrid and multi-stage queries.
+
+Params:
+- collection_name::String (required)
+- consistency::QdrantReadConsistency
+- timeout::Int64
+- qdrant_query_request_batch::QdrantQueryRequestBatch
+
+Return: QdrantQueryBatchPoints200Response, OpenAPI.Clients.ApiResponse
+"""
+function query_batch_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_request_batch=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_query_batch_points(_api, collection_name; consistency=consistency, timeout=timeout, qdrant_query_request_batch=qdrant_query_request_batch, _mediaType=_mediaType)
+    return OpenAPI.Clients.exec(_ctx)
+end
+
+function query_batch_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_request_batch=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_query_batch_points(_api, collection_name; consistency=consistency, timeout=timeout, qdrant_query_request_batch=qdrant_query_request_batch, _mediaType=_mediaType)
+    return OpenAPI.Clients.exec(_ctx, response_stream)
+end
+
+const _returntypes_query_points_PointsApi = Dict{Regex,Type}(
+    Regex("^" * replace("200", "x"=>".") * "\$") => QdrantQueryPoints200Response,
+    Regex("^" * replace("4XX", "x"=>".") * "\$") => QdrantErrorResponse,
+    Regex("^" * replace("0", "x"=>".") * "\$") => QdrantErrorResponse,
+)
+
+function _oacinternal_query_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_request=nothing, _mediaType=nothing)
+    OpenAPI.validate_param("timeout", "query_points", :minimum, timeout, 1, false)
+
+    _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_query_points_PointsApi, "/collections/{collection_name}/points/query", ["api-key", "bearerAuth", ], qdrant_query_request)
+    OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
+    OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
+    OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
+    return _ctx
+end
+
+@doc raw"""Query points
+
+Universally query points. This endpoint covers all capabilities of search, recommend, discover, filters. But also enables hybrid and multi-stage queries.
+
+Params:
+- collection_name::String (required)
+- consistency::QdrantReadConsistency
+- timeout::Int64
+- qdrant_query_request::QdrantQueryRequest
+
+Return: QdrantQueryPoints200Response, OpenAPI.Clients.ApiResponse
+"""
+function query_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_request=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_query_points(_api, collection_name; consistency=consistency, timeout=timeout, qdrant_query_request=qdrant_query_request, _mediaType=_mediaType)
+    return OpenAPI.Clients.exec(_ctx)
+end
+
+function query_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_request=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_query_points(_api, collection_name; consistency=consistency, timeout=timeout, qdrant_query_request=qdrant_query_request, _mediaType=_mediaType)
+    return OpenAPI.Clients.exec(_ctx, response_stream)
+end
+
+const _returntypes_query_points_groups_PointsApi = Dict{Regex,Type}(
+    Regex("^" * replace("200", "x"=>".") * "\$") => QdrantSearchPointGroups200Response,
+    Regex("^" * replace("4XX", "x"=>".") * "\$") => QdrantErrorResponse,
+    Regex("^" * replace("0", "x"=>".") * "\$") => QdrantErrorResponse,
+)
+
+function _oacinternal_query_points_groups(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_groups_request=nothing, _mediaType=nothing)
+    OpenAPI.validate_param("timeout", "query_points_groups", :minimum, timeout, 1, false)
+
+    _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_query_points_groups_PointsApi, "/collections/{collection_name}/points/query/groups", ["api-key", "bearerAuth", ], qdrant_query_groups_request)
+    OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
+    OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
+    OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
+    return _ctx
+end
+
+@doc raw"""Query points, grouped by a given payload field
+
+Universally query points, grouped by a given payload field
+
+Params:
+- collection_name::String (required)
+- consistency::QdrantReadConsistency
+- timeout::Int64
+- qdrant_query_groups_request::QdrantQueryGroupsRequest
+
+Return: QdrantSearchPointGroups200Response, OpenAPI.Clients.ApiResponse
+"""
+function query_points_groups(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_groups_request=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_query_points_groups(_api, collection_name; consistency=consistency, timeout=timeout, qdrant_query_groups_request=qdrant_query_groups_request, _mediaType=_mediaType)
+    return OpenAPI.Clients.exec(_ctx)
+end
+
+function query_points_groups(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_groups_request=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_query_points_groups(_api, collection_name; consistency=consistency, timeout=timeout, qdrant_query_groups_request=qdrant_query_groups_request, _mediaType=_mediaType)
+    return OpenAPI.Clients.exec(_ctx, response_stream)
+end
+
 const _returntypes_recommend_batch_points_PointsApi = Dict{Regex,Type}(
     Regex("^" * replace("200", "x"=>".") * "\$") => QdrantSearchBatchPoints200Response,
     Regex("^" * replace("4XX", "x"=>".") * "\$") => QdrantErrorResponse,
@@ -437,8 +565,8 @@ function _oacinternal_recommend_batch_points(_api::PointsApi, collection_name::S
 
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_recommend_batch_points_PointsApi, "/collections/{collection_name}/points/recommend/batch", ["api-key", "bearerAuth", ], qdrant_recommend_request_batch)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency)  # type QdrantReadConsistency
-    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout)  # type Int64
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -477,8 +605,8 @@ function _oacinternal_recommend_point_groups(_api::PointsApi, collection_name::S
 
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_recommend_point_groups_PointsApi, "/collections/{collection_name}/points/recommend/groups", ["api-key", "bearerAuth", ], qdrant_recommend_groups_request)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency)  # type QdrantReadConsistency
-    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout)  # type Int64
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -517,8 +645,8 @@ function _oacinternal_recommend_points(_api::PointsApi, collection_name::String;
 
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_recommend_points_PointsApi, "/collections/{collection_name}/points/recommend", ["api-key", "bearerAuth", ], qdrant_recommend_request)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency)  # type QdrantReadConsistency
-    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout)  # type Int64
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -552,10 +680,13 @@ const _returntypes_scroll_points_PointsApi = Dict{Regex,Type}(
     Regex("^" * replace("0", "x"=>".") * "\$") => QdrantErrorResponse,
 )
 
-function _oacinternal_scroll_points(_api::PointsApi, collection_name::String; consistency=nothing, qdrant_scroll_request=nothing, _mediaType=nothing)
+function _oacinternal_scroll_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_scroll_request=nothing, _mediaType=nothing)
+    OpenAPI.validate_param("timeout", "scroll_points", :minimum, timeout, 1, false)
+
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_scroll_points_PointsApi, "/collections/{collection_name}/points/scroll", ["api-key", "bearerAuth", ], qdrant_scroll_request)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -568,17 +699,18 @@ Scroll request - paginate over all points which matches given filtering conditio
 Params:
 - collection_name::String (required)
 - consistency::QdrantReadConsistency
+- timeout::Int64
 - qdrant_scroll_request::QdrantScrollRequest
 
 Return: QdrantScrollPoints200Response, OpenAPI.Clients.ApiResponse
 """
-function scroll_points(_api::PointsApi, collection_name::String; consistency=nothing, qdrant_scroll_request=nothing, _mediaType=nothing)
-    _ctx = _oacinternal_scroll_points(_api, collection_name; consistency=consistency, qdrant_scroll_request=qdrant_scroll_request, _mediaType=_mediaType)
+function scroll_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_scroll_request=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_scroll_points(_api, collection_name; consistency=consistency, timeout=timeout, qdrant_scroll_request=qdrant_scroll_request, _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx)
 end
 
-function scroll_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, qdrant_scroll_request=nothing, _mediaType=nothing)
-    _ctx = _oacinternal_scroll_points(_api, collection_name; consistency=consistency, qdrant_scroll_request=qdrant_scroll_request, _mediaType=_mediaType)
+function scroll_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, timeout=nothing, qdrant_scroll_request=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_scroll_points(_api, collection_name; consistency=consistency, timeout=timeout, qdrant_scroll_request=qdrant_scroll_request, _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx, response_stream)
 end
 
@@ -593,8 +725,8 @@ function _oacinternal_search_batch_points(_api::PointsApi, collection_name::Stri
 
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_search_batch_points_PointsApi, "/collections/{collection_name}/points/search/batch", ["api-key", "bearerAuth", ], qdrant_search_request_batch)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency)  # type QdrantReadConsistency
-    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout)  # type Int64
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -633,8 +765,8 @@ function _oacinternal_search_point_groups(_api::PointsApi, collection_name::Stri
 
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_search_point_groups_PointsApi, "/collections/{collection_name}/points/search/groups", ["api-key", "bearerAuth", ], qdrant_search_groups_request)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency)  # type QdrantReadConsistency
-    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout)  # type Int64
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -673,8 +805,8 @@ function _oacinternal_search_points(_api::PointsApi, collection_name::String; co
 
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_search_points_PointsApi, "/collections/{collection_name}/points/search", ["api-key", "bearerAuth", ], qdrant_search_request)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency)  # type QdrantReadConsistency
-    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout)  # type Int64
+    OpenAPI.Clients.set_param(_ctx.query, "consistency", consistency; style="form", is_explode=true)  # type QdrantReadConsistency
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -711,8 +843,8 @@ const _returntypes_set_payload_PointsApi = Dict{Regex,Type}(
 function _oacinternal_set_payload(_api::PointsApi, collection_name::String; wait=nothing, ordering=nothing, qdrant_set_payload=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_set_payload_PointsApi, "/collections/{collection_name}/points/payload", ["api-key", "bearerAuth", ], qdrant_set_payload)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
-    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering)  # type QdrantWriteOrdering
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering; style="form", is_explode=true)  # type QdrantWriteOrdering
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -749,8 +881,8 @@ const _returntypes_update_vectors_PointsApi = Dict{Regex,Type}(
 function _oacinternal_update_vectors(_api::PointsApi, collection_name::String; wait=nothing, ordering=nothing, qdrant_update_vectors=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "PUT", _returntypes_update_vectors_PointsApi, "/collections/{collection_name}/points/vectors", ["api-key", "bearerAuth", ], qdrant_update_vectors)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
-    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering)  # type QdrantWriteOrdering
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering; style="form", is_explode=true)  # type QdrantWriteOrdering
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -787,8 +919,8 @@ const _returntypes_upsert_points_PointsApi = Dict{Regex,Type}(
 function _oacinternal_upsert_points(_api::PointsApi, collection_name::String; wait=nothing, ordering=nothing, qdrant_point_insert_operations=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "PUT", _returntypes_upsert_points_PointsApi, "/collections/{collection_name}/points", ["api-key", "bearerAuth", ], qdrant_point_insert_operations)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
-    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering)  # type QdrantWriteOrdering
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "ordering", ordering; style="form", is_explode=true)  # type QdrantWriteOrdering
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -827,6 +959,9 @@ export discover_points
 export get_point
 export get_points
 export overwrite_payload
+export query_batch_points
+export query_points
+export query_points_groups
 export recommend_batch_points
 export recommend_point_groups
 export recommend_points

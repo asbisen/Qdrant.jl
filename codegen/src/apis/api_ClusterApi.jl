@@ -84,7 +84,7 @@ const _returntypes_create_shard_key_ClusterApi = Dict{Regex,Type}(
 function _oacinternal_create_shard_key(_api::ClusterApi, collection_name::String; timeout=nothing, qdrant_create_sharding_key=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "PUT", _returntypes_create_shard_key_ClusterApi, "/collections/{collection_name}/shards", ["api-key", "bearerAuth", ], qdrant_create_sharding_key)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout)  # type Int64
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -118,7 +118,7 @@ const _returntypes_delete_shard_key_ClusterApi = Dict{Regex,Type}(
 function _oacinternal_delete_shard_key(_api::ClusterApi, collection_name::String; timeout=nothing, qdrant_drop_sharding_key=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_delete_shard_key_ClusterApi, "/collections/{collection_name}/shards/delete", ["api-key", "bearerAuth", ], qdrant_drop_sharding_key)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout)  # type Int64
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -181,7 +181,7 @@ const _returntypes_remove_peer_ClusterApi = Dict{Regex,Type}(
 function _oacinternal_remove_peer(_api::ClusterApi, peer_id::Int64; force=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "DELETE", _returntypes_remove_peer_ClusterApi, "/cluster/peer/{peer_id}", ["api-key", "bearerAuth", ])
     OpenAPI.Clients.set_param(_ctx.path, "peer_id", peer_id)  # type Int64
-    OpenAPI.Clients.set_param(_ctx.query, "force", force)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "force", force; style="form", is_explode=true)  # type Bool
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -216,7 +216,7 @@ const _returntypes_update_collection_cluster_ClusterApi = Dict{Regex,Type}(
 function _oacinternal_update_collection_cluster(_api::ClusterApi, collection_name::String; timeout=nothing, qdrant_cluster_operations=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_update_collection_cluster_ClusterApi, "/collections/{collection_name}/cluster", ["api-key", "bearerAuth", ], qdrant_cluster_operations)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout)  # type Int64
+    OpenAPI.Clients.set_param(_ctx.query, "timeout", timeout; style="form", is_explode=true)  # type Int64
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx

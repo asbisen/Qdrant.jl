@@ -8,7 +8,7 @@
     QdrantBatchVectorStruct(; value=nothing)
 """
 mutable struct QdrantBatchVectorStruct <: OpenAPI.AnyOfAPIModel
-    value::Any # Union{ Dict{String, Vector{QdrantVector}}, Vector{Vector{Float32}} }
+    value::Any # Union{ Dict{String, Vector{QdrantVector}}, Vector{Vector{Float32}}, Vector{Vector{Vector{Float32}}} }
     QdrantBatchVectorStruct() = new()
     QdrantBatchVectorStruct(value) = new(value)
 end # type QdrantBatchVectorStruct

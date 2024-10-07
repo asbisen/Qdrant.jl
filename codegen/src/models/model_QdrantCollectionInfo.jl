@@ -18,7 +18,7 @@ Current statistics and configuration of the collection
 
     - status::QdrantCollectionStatus
     - optimizer_status::QdrantOptimizersStatus
-    - vectors_count::Int64 : Approximate number of vectors in collection. All vectors in collection are available for querying. Calculated as &#x60;points_count x vectors_per_point&#x60;. Where &#x60;vectors_per_point&#x60; is a number of named vectors in schema.
+    - vectors_count::Int64 : DEPRECATED: Approximate number of vectors in collection. All vectors in collection are available for querying. Calculated as &#x60;points_count x vectors_per_point&#x60;. Where &#x60;vectors_per_point&#x60; is a number of named vectors in schema.
     - indexed_vectors_count::Int64 : Approximate number of indexed vectors in the collection. Indexed vectors in large segments are faster to query, as it is stored in a specialized vector index.
     - points_count::Int64 : Approximate number of points (vectors + payloads) in collection. Each point could be accessed by unique id.
     - segments_count::Int64 : Number of segments in collection. Each segment has independent vector as payload indexes

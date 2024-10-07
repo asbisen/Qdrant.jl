@@ -7,20 +7,24 @@ Params of single sparse vector data storage
 
     QdrantSparseVectorParams(;
         index=nothing,
+        modifier=nothing,
     )
 
     - index::QdrantSparseIndexParams
+    - modifier::QdrantModifier
 """
 Base.@kwdef mutable struct QdrantSparseVectorParams <: OpenAPI.APIModel
     index = nothing # spec type: Union{ Nothing, QdrantSparseIndexParams }
+    modifier = nothing # spec type: Union{ Nothing, QdrantModifier }
 
-    function QdrantSparseVectorParams(index, )
+    function QdrantSparseVectorParams(index, modifier, )
         OpenAPI.validate_property(QdrantSparseVectorParams, Symbol("index"), index)
-        return new(index, )
+        OpenAPI.validate_property(QdrantSparseVectorParams, Symbol("modifier"), modifier)
+        return new(index, modifier, )
     end
 end # type QdrantSparseVectorParams
 
-const _property_types_QdrantSparseVectorParams = Dict{Symbol,String}(Symbol("index")=>"QdrantSparseIndexParams", )
+const _property_types_QdrantSparseVectorParams = Dict{Symbol,String}(Symbol("index")=>"QdrantSparseIndexParams", Symbol("modifier")=>"QdrantModifier", )
 OpenAPI.property_type(::Type{ QdrantSparseVectorParams }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantSparseVectorParams[name]))}
 
 function check_required(o::QdrantSparseVectorParams)

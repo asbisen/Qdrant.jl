@@ -11,6 +11,8 @@ Config of single vector data storage
         storage_type=nothing,
         index=nothing,
         quantization_config=nothing,
+        multivector_config=nothing,
+        datatype=nothing,
     )
 
     - size::Int64 : Size/dimensionality of the vectors used
@@ -18,6 +20,8 @@ Config of single vector data storage
     - storage_type::QdrantVectorStorageType
     - index::QdrantIndexes
     - quantization_config::QdrantQuantizationConfig
+    - multivector_config::QdrantMultiVectorConfig
+    - datatype::QdrantVectorStorageDatatype
 """
 Base.@kwdef mutable struct QdrantVectorDataConfig <: OpenAPI.APIModel
     size::Union{Nothing, Int64} = nothing
@@ -25,18 +29,22 @@ Base.@kwdef mutable struct QdrantVectorDataConfig <: OpenAPI.APIModel
     storage_type = nothing # spec type: Union{ Nothing, QdrantVectorStorageType }
     index = nothing # spec type: Union{ Nothing, QdrantIndexes }
     quantization_config = nothing # spec type: Union{ Nothing, QdrantQuantizationConfig }
+    multivector_config = nothing # spec type: Union{ Nothing, QdrantMultiVectorConfig }
+    datatype = nothing # spec type: Union{ Nothing, QdrantVectorStorageDatatype }
 
-    function QdrantVectorDataConfig(size, distance, storage_type, index, quantization_config, )
+    function QdrantVectorDataConfig(size, distance, storage_type, index, quantization_config, multivector_config, datatype, )
         OpenAPI.validate_property(QdrantVectorDataConfig, Symbol("size"), size)
         OpenAPI.validate_property(QdrantVectorDataConfig, Symbol("distance"), distance)
         OpenAPI.validate_property(QdrantVectorDataConfig, Symbol("storage_type"), storage_type)
         OpenAPI.validate_property(QdrantVectorDataConfig, Symbol("index"), index)
         OpenAPI.validate_property(QdrantVectorDataConfig, Symbol("quantization_config"), quantization_config)
-        return new(size, distance, storage_type, index, quantization_config, )
+        OpenAPI.validate_property(QdrantVectorDataConfig, Symbol("multivector_config"), multivector_config)
+        OpenAPI.validate_property(QdrantVectorDataConfig, Symbol("datatype"), datatype)
+        return new(size, distance, storage_type, index, quantization_config, multivector_config, datatype, )
     end
 end # type QdrantVectorDataConfig
 
-const _property_types_QdrantVectorDataConfig = Dict{Symbol,String}(Symbol("size")=>"Int64", Symbol("distance")=>"QdrantDistance", Symbol("storage_type")=>"QdrantVectorStorageType", Symbol("index")=>"QdrantIndexes", Symbol("quantization_config")=>"QdrantQuantizationConfig", )
+const _property_types_QdrantVectorDataConfig = Dict{Symbol,String}(Symbol("size")=>"Int64", Symbol("distance")=>"QdrantDistance", Symbol("storage_type")=>"QdrantVectorStorageType", Symbol("index")=>"QdrantIndexes", Symbol("quantization_config")=>"QdrantQuantizationConfig", Symbol("multivector_config")=>"QdrantMultiVectorConfig", Symbol("datatype")=>"QdrantVectorStorageDatatype", )
 OpenAPI.property_type(::Type{ QdrantVectorDataConfig }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantVectorDataConfig[name]))}
 
 function check_required(o::QdrantVectorDataConfig)

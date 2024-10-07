@@ -15,6 +15,9 @@ Method | HTTP request | Description
 [**get_point**](PointsApi.md#get_point) | **GET** /collections/{collection_name}/points/{id} | Get point
 [**get_points**](PointsApi.md#get_points) | **POST** /collections/{collection_name}/points | Get points
 [**overwrite_payload**](PointsApi.md#overwrite_payload) | **PUT** /collections/{collection_name}/points/payload | Overwrite payload
+[**query_batch_points**](PointsApi.md#query_batch_points) | **POST** /collections/{collection_name}/points/query/batch | Query points in batch
+[**query_points**](PointsApi.md#query_points) | **POST** /collections/{collection_name}/points/query | Query points
+[**query_points_groups**](PointsApi.md#query_points_groups) | **POST** /collections/{collection_name}/points/query/groups | Query points, grouped by a given payload field
 [**recommend_batch_points**](PointsApi.md#recommend_batch_points) | **POST** /collections/{collection_name}/points/recommend/batch | Recommend batch points
 [**recommend_point_groups**](PointsApi.md#recommend_point_groups) | **POST** /collections/{collection_name}/points/recommend/groups | Recommend point groups
 [**recommend_points**](PointsApi.md#recommend_points) | **POST** /collections/{collection_name}/points/recommend | Recommend points
@@ -104,8 +107,8 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 # **count_points**
-> count_points(_api::PointsApi, collection_name::String; qdrant_count_request=nothing, _mediaType=nothing) -> QdrantCountPoints200Response, OpenAPI.Clients.ApiResponse <br/>
-> count_points(_api::PointsApi, response_stream::Channel, collection_name::String; qdrant_count_request=nothing, _mediaType=nothing) -> Channel{ QdrantCountPoints200Response }, OpenAPI.Clients.ApiResponse
+> count_points(_api::PointsApi, collection_name::String; timeout=nothing, qdrant_count_request=nothing, _mediaType=nothing) -> QdrantCountPoints200Response, OpenAPI.Clients.ApiResponse <br/>
+> count_points(_api::PointsApi, response_stream::Channel, collection_name::String; timeout=nothing, qdrant_count_request=nothing, _mediaType=nothing) -> Channel{ QdrantCountPoints200Response }, OpenAPI.Clients.ApiResponse
 
 Count points
 
@@ -122,6 +125,7 @@ Name | Type | Description  | Notes
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **timeout** | **Int64**| If set, overrides global timeout for this request. Unit is seconds. | [default to nothing]
  **qdrant_count_request** | [**QdrantCountRequest**](QdrantCountRequest.md)| Request counts of points which matches given filtering condition | 
 
 ### Return type
@@ -367,8 +371,8 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 # **get_points**
-> get_points(_api::PointsApi, collection_name::String; consistency=nothing, qdrant_point_request=nothing, _mediaType=nothing) -> QdrantGetPoints200Response, OpenAPI.Clients.ApiResponse <br/>
-> get_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, qdrant_point_request=nothing, _mediaType=nothing) -> Channel{ QdrantGetPoints200Response }, OpenAPI.Clients.ApiResponse
+> get_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_point_request=nothing, _mediaType=nothing) -> QdrantGetPoints200Response, OpenAPI.Clients.ApiResponse <br/>
+> get_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, timeout=nothing, qdrant_point_request=nothing, _mediaType=nothing) -> Channel{ QdrantGetPoints200Response }, OpenAPI.Clients.ApiResponse
 
 Get points
 
@@ -386,6 +390,7 @@ Name | Type | Description  | Notes
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **consistency** | [**QdrantReadConsistency**](.md)| Define read consistency guarantees for the operation | [default to nothing]
+ **timeout** | **Int64**| If set, overrides global timeout for this request. Unit is seconds. | [default to nothing]
  **qdrant_point_request** | [**QdrantPointRequest**](QdrantPointRequest.md)| List of points to retrieve | 
 
 ### Return type
@@ -429,6 +434,120 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**QdrantCreateFieldIndex200Response**](QdrantCreateFieldIndex200Response.md)
+
+### Authorization
+
+[api-key](../README.md#api-key), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+# **query_batch_points**
+> query_batch_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_request_batch=nothing, _mediaType=nothing) -> QdrantQueryBatchPoints200Response, OpenAPI.Clients.ApiResponse <br/>
+> query_batch_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_request_batch=nothing, _mediaType=nothing) -> Channel{ QdrantQueryBatchPoints200Response }, OpenAPI.Clients.ApiResponse
+
+Query points in batch
+
+Universally query points in batch. This endpoint covers all capabilities of search, recommend, discover, filters. But also enables hybrid and multi-stage queries.
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **_api** | **PointsApi** | API context | 
+**collection_name** | **String**| Name of the collection to query | [default to nothing]
+
+### Optional Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **consistency** | [**QdrantReadConsistency**](.md)| Define read consistency guarantees for the operation | [default to nothing]
+ **timeout** | **Int64**| If set, overrides global timeout for this request. Unit is seconds. | [default to nothing]
+ **qdrant_query_request_batch** | [**QdrantQueryRequestBatch**](QdrantQueryRequestBatch.md)| Describes the queries to make to the collection | 
+
+### Return type
+
+[**QdrantQueryBatchPoints200Response**](QdrantQueryBatchPoints200Response.md)
+
+### Authorization
+
+[api-key](../README.md#api-key), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+# **query_points**
+> query_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_request=nothing, _mediaType=nothing) -> QdrantQueryPoints200Response, OpenAPI.Clients.ApiResponse <br/>
+> query_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_request=nothing, _mediaType=nothing) -> Channel{ QdrantQueryPoints200Response }, OpenAPI.Clients.ApiResponse
+
+Query points
+
+Universally query points. This endpoint covers all capabilities of search, recommend, discover, filters. But also enables hybrid and multi-stage queries.
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **_api** | **PointsApi** | API context | 
+**collection_name** | **String**| Name of the collection to query | [default to nothing]
+
+### Optional Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **consistency** | [**QdrantReadConsistency**](.md)| Define read consistency guarantees for the operation | [default to nothing]
+ **timeout** | **Int64**| If set, overrides global timeout for this request. Unit is seconds. | [default to nothing]
+ **qdrant_query_request** | [**QdrantQueryRequest**](QdrantQueryRequest.md)| Describes the query to make to the collection | 
+
+### Return type
+
+[**QdrantQueryPoints200Response**](QdrantQueryPoints200Response.md)
+
+### Authorization
+
+[api-key](../README.md#api-key), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+# **query_points_groups**
+> query_points_groups(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_groups_request=nothing, _mediaType=nothing) -> QdrantSearchPointGroups200Response, OpenAPI.Clients.ApiResponse <br/>
+> query_points_groups(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, timeout=nothing, qdrant_query_groups_request=nothing, _mediaType=nothing) -> Channel{ QdrantSearchPointGroups200Response }, OpenAPI.Clients.ApiResponse
+
+Query points, grouped by a given payload field
+
+Universally query points, grouped by a given payload field
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **_api** | **PointsApi** | API context | 
+**collection_name** | **String**| Name of the collection to query | [default to nothing]
+
+### Optional Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **consistency** | [**QdrantReadConsistency**](.md)| Define read consistency guarantees for the operation | [default to nothing]
+ **timeout** | **Int64**| If set, overrides global timeout for this request. Unit is seconds. | [default to nothing]
+ **qdrant_query_groups_request** | [**QdrantQueryGroupsRequest**](QdrantQueryGroupsRequest.md)| Describes the query to make to the collection | 
+
+### Return type
+
+[**QdrantSearchPointGroups200Response**](QdrantSearchPointGroups200Response.md)
 
 ### Authorization
 
@@ -556,8 +675,8 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 # **scroll_points**
-> scroll_points(_api::PointsApi, collection_name::String; consistency=nothing, qdrant_scroll_request=nothing, _mediaType=nothing) -> QdrantScrollPoints200Response, OpenAPI.Clients.ApiResponse <br/>
-> scroll_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, qdrant_scroll_request=nothing, _mediaType=nothing) -> Channel{ QdrantScrollPoints200Response }, OpenAPI.Clients.ApiResponse
+> scroll_points(_api::PointsApi, collection_name::String; consistency=nothing, timeout=nothing, qdrant_scroll_request=nothing, _mediaType=nothing) -> QdrantScrollPoints200Response, OpenAPI.Clients.ApiResponse <br/>
+> scroll_points(_api::PointsApi, response_stream::Channel, collection_name::String; consistency=nothing, timeout=nothing, qdrant_scroll_request=nothing, _mediaType=nothing) -> Channel{ QdrantScrollPoints200Response }, OpenAPI.Clients.ApiResponse
 
 Scroll points
 
@@ -575,6 +694,7 @@ Name | Type | Description  | Notes
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **consistency** | [**QdrantReadConsistency**](.md)| Define read consistency guarantees for the operation | [default to nothing]
+ **timeout** | **Int64**| If set, overrides global timeout for this request. Unit is seconds. | [default to nothing]
  **qdrant_scroll_request** | [**QdrantScrollRequest**](QdrantScrollRequest.md)| Pagination and filter parameters | 
 
 ### Return type

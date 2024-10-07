@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **memmap_threshold** | **Int64** | Maximum size (in kilobytes) of vectors to store in-memory per segment. Segments larger than this threshold will be stored as read-only memmaped file.  Memmap storage is disabled by default, to enable it, set this threshold to a reasonable value.  To disable memmap storage, set this to &#x60;0&#x60;. Internally it will use the largest threshold possible.  Note: 1Kb &#x3D; 1 vector of size 256 | [optional] [default to nothing]
 **indexing_threshold** | **Int64** | Maximum size (in kilobytes) of vectors allowed for plain index, exceeding this threshold will enable vector indexing  Default value is 20,000, based on &lt;https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md&gt;.  To disable vector indexing, set to &#x60;0&#x60;.  Note: 1kB &#x3D; 1 vector of size 256. | [optional] [default to nothing]
 **flush_interval_sec** | **Int64** | Minimum interval between forced flushes. | [default to nothing]
-**max_optimization_threads** | **Int64** | Maximum available threads for optimization workers | [default to nothing]
+**max_optimization_threads** | **Int64** | Max number of threads (jobs) for running optimizations per shard. Note: each optimization job will also use &#x60;max_indexing_threads&#x60; threads by itself for index building. If null - have no limit and choose dynamically to saturate CPU. If 0 - no optimization threads, optimizations will be disabled. | [optional] [default to nothing]
 
 
 [[Back to Model list]](../README.md#models) [[Back to API list]](../README.md#api-endpoints) [[Back to README]](../README.md)

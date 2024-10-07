@@ -17,7 +17,7 @@ All possible payload filtering conditions
 
     - key::String : Payload key
     - match::QdrantMatch
-    - range::QdrantRange
+    - range::QdrantRangeInterface
     - geo_bounding_box::QdrantGeoBoundingBox
     - geo_radius::QdrantGeoRadius
     - geo_polygon::QdrantGeoPolygon
@@ -26,7 +26,7 @@ All possible payload filtering conditions
 Base.@kwdef mutable struct QdrantFieldCondition <: OpenAPI.APIModel
     key::Union{Nothing, String} = nothing
     match = nothing # spec type: Union{ Nothing, QdrantMatch }
-    range = nothing # spec type: Union{ Nothing, QdrantRange }
+    range = nothing # spec type: Union{ Nothing, QdrantRangeInterface }
     geo_bounding_box = nothing # spec type: Union{ Nothing, QdrantGeoBoundingBox }
     geo_radius = nothing # spec type: Union{ Nothing, QdrantGeoRadius }
     geo_polygon = nothing # spec type: Union{ Nothing, QdrantGeoPolygon }
@@ -44,7 +44,7 @@ Base.@kwdef mutable struct QdrantFieldCondition <: OpenAPI.APIModel
     end
 end # type QdrantFieldCondition
 
-const _property_types_QdrantFieldCondition = Dict{Symbol,String}(Symbol("key")=>"String", Symbol("match")=>"QdrantMatch", Symbol("range")=>"QdrantRange", Symbol("geo_bounding_box")=>"QdrantGeoBoundingBox", Symbol("geo_radius")=>"QdrantGeoRadius", Symbol("geo_polygon")=>"QdrantGeoPolygon", Symbol("values_count")=>"QdrantValuesCount", )
+const _property_types_QdrantFieldCondition = Dict{Symbol,String}(Symbol("key")=>"String", Symbol("match")=>"QdrantMatch", Symbol("range")=>"QdrantRangeInterface", Symbol("geo_bounding_box")=>"QdrantGeoBoundingBox", Symbol("geo_radius")=>"QdrantGeoRadius", Symbol("geo_polygon")=>"QdrantGeoPolygon", Symbol("values_count")=>"QdrantValuesCount", )
 OpenAPI.property_type(::Type{ QdrantFieldCondition }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantFieldCondition[name]))}
 
 function check_required(o::QdrantFieldCondition)

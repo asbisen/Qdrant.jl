@@ -8,23 +8,27 @@ Configuration for sparse inverted index.
     QdrantSparseIndexConfig(;
         full_scan_threshold=nothing,
         index_type=nothing,
+        datatype=nothing,
     )
 
     - full_scan_threshold::Int64 : We prefer a full scan search upto (excluding) this number of vectors.  Note: this is number of vectors, not KiloBytes.
     - index_type::QdrantSparseIndexType
+    - datatype::QdrantVectorStorageDatatype
 """
 Base.@kwdef mutable struct QdrantSparseIndexConfig <: OpenAPI.APIModel
     full_scan_threshold::Union{Nothing, Int64} = nothing
     index_type = nothing # spec type: Union{ Nothing, QdrantSparseIndexType }
+    datatype = nothing # spec type: Union{ Nothing, QdrantVectorStorageDatatype }
 
-    function QdrantSparseIndexConfig(full_scan_threshold, index_type, )
+    function QdrantSparseIndexConfig(full_scan_threshold, index_type, datatype, )
         OpenAPI.validate_property(QdrantSparseIndexConfig, Symbol("full_scan_threshold"), full_scan_threshold)
         OpenAPI.validate_property(QdrantSparseIndexConfig, Symbol("index_type"), index_type)
-        return new(full_scan_threshold, index_type, )
+        OpenAPI.validate_property(QdrantSparseIndexConfig, Symbol("datatype"), datatype)
+        return new(full_scan_threshold, index_type, datatype, )
     end
 end # type QdrantSparseIndexConfig
 
-const _property_types_QdrantSparseIndexConfig = Dict{Symbol,String}(Symbol("full_scan_threshold")=>"Int64", Symbol("index_type")=>"QdrantSparseIndexType", )
+const _property_types_QdrantSparseIndexConfig = Dict{Symbol,String}(Symbol("full_scan_threshold")=>"Int64", Symbol("index_type")=>"QdrantSparseIndexType", Symbol("datatype")=>"QdrantVectorStorageDatatype", )
 OpenAPI.property_type(::Type{ QdrantSparseIndexConfig }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantSparseIndexConfig[name]))}
 
 function check_required(o::QdrantSparseIndexConfig)

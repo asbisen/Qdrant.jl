@@ -12,6 +12,7 @@ Scroll request - paginate over all points which matches given condition
         filter=nothing,
         with_payload=nothing,
         with_vector=nothing,
+        order_by=nothing,
     )
 
     - shard_key::QdrantShardKeySelector
@@ -20,6 +21,7 @@ Scroll request - paginate over all points which matches given condition
     - filter::QdrantFilter
     - with_payload::QdrantWithPayloadInterface
     - with_vector::QdrantWithVector
+    - order_by::QdrantOrderByInterface
 """
 Base.@kwdef mutable struct QdrantScrollRequest <: OpenAPI.APIModel
     shard_key = nothing # spec type: Union{ Nothing, QdrantShardKeySelector }
@@ -28,19 +30,21 @@ Base.@kwdef mutable struct QdrantScrollRequest <: OpenAPI.APIModel
     filter = nothing # spec type: Union{ Nothing, QdrantFilter }
     with_payload = nothing # spec type: Union{ Nothing, QdrantWithPayloadInterface }
     with_vector = nothing # spec type: Union{ Nothing, QdrantWithVector }
+    order_by = nothing # spec type: Union{ Nothing, QdrantOrderByInterface }
 
-    function QdrantScrollRequest(shard_key, offset, limit, filter, with_payload, with_vector, )
+    function QdrantScrollRequest(shard_key, offset, limit, filter, with_payload, with_vector, order_by, )
         OpenAPI.validate_property(QdrantScrollRequest, Symbol("shard_key"), shard_key)
         OpenAPI.validate_property(QdrantScrollRequest, Symbol("offset"), offset)
         OpenAPI.validate_property(QdrantScrollRequest, Symbol("limit"), limit)
         OpenAPI.validate_property(QdrantScrollRequest, Symbol("filter"), filter)
         OpenAPI.validate_property(QdrantScrollRequest, Symbol("with_payload"), with_payload)
         OpenAPI.validate_property(QdrantScrollRequest, Symbol("with_vector"), with_vector)
-        return new(shard_key, offset, limit, filter, with_payload, with_vector, )
+        OpenAPI.validate_property(QdrantScrollRequest, Symbol("order_by"), order_by)
+        return new(shard_key, offset, limit, filter, with_payload, with_vector, order_by, )
     end
 end # type QdrantScrollRequest
 
-const _property_types_QdrantScrollRequest = Dict{Symbol,String}(Symbol("shard_key")=>"QdrantShardKeySelector", Symbol("offset")=>"QdrantExtendedPointId", Symbol("limit")=>"Int64", Symbol("filter")=>"QdrantFilter", Symbol("with_payload")=>"QdrantWithPayloadInterface", Symbol("with_vector")=>"QdrantWithVector", )
+const _property_types_QdrantScrollRequest = Dict{Symbol,String}(Symbol("shard_key")=>"QdrantShardKeySelector", Symbol("offset")=>"QdrantExtendedPointId", Symbol("limit")=>"Int64", Symbol("filter")=>"QdrantFilter", Symbol("with_payload")=>"QdrantWithPayloadInterface", Symbol("with_vector")=>"QdrantWithVector", Symbol("order_by")=>"QdrantOrderByInterface", )
 OpenAPI.property_type(::Type{ QdrantScrollRequest }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantScrollRequest[name]))}
 
 function check_required(o::QdrantScrollRequest)

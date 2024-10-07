@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**metrics**](ServiceApi.md#metrics) | **GET** /metrics | Collect Prometheus metrics data
 [**post_locks**](ServiceApi.md#post_locks) | **POST** /locks | Set lock options
 [**readyz**](ServiceApi.md#readyz) | **GET** /readyz | Kubernetes readyz endpoint
+[**root**](ServiceApi.md#root) | **GET** / | Returns information about the running Qdrant instance
 [**telemetry**](ServiceApi.md#telemetry) | **GET** /telemetry | Collect telemetry data
 
 
@@ -184,6 +185,32 @@ This endpoint does not need any parameter.
 
  - **Content-Type**: Not defined
  - **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+# **root**
+> root(_api::ServiceApi; _mediaType=nothing) -> QdrantVersionInfo, OpenAPI.Clients.ApiResponse <br/>
+> root(_api::ServiceApi, response_stream::Channel; _mediaType=nothing) -> Channel{ QdrantVersionInfo }, OpenAPI.Clients.ApiResponse
+
+Returns information about the running Qdrant instance
+
+Returns information about the running Qdrant instance like version and commit id
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**QdrantVersionInfo**](QdrantVersionInfo.md)
+
+### Authorization
+
+[api-key](../README.md#api-key), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

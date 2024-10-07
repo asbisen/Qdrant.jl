@@ -5,7 +5,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**value** | This is a anyOf model. The value must be any of the following types: QdrantPayloadSchemaType, QdrantTextIndexParams |  | [optional] 
+**value** | This is a anyOf model. The value must be any of the following types: QdrantPayloadSchemaParams, QdrantPayloadSchemaType |  | [optional] 
 
 
 

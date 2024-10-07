@@ -10,13 +10,15 @@
         to=nothing,
         sync=nothing,
         method=nothing,
+        comment=nothing,
     )
 
     - shard_id::Int64
-    - from::Int64
-    - to::Int64
+    - from::Int64 : Source peer id
+    - to::Int64 : Destination peer id
     - sync::Bool : If &#x60;true&#x60; transfer is a synchronization of a replicas If &#x60;false&#x60; transfer is a moving of a shard from one peer to another
     - method::QdrantShardTransferMethod
+    - comment::String : A human-readable report of the transfer progress. Available only on the source peer.
 """
 Base.@kwdef mutable struct QdrantShardTransferInfo <: OpenAPI.APIModel
     shard_id::Union{Nothing, Int64} = nothing
@@ -24,18 +26,20 @@ Base.@kwdef mutable struct QdrantShardTransferInfo <: OpenAPI.APIModel
     to::Union{Nothing, Int64} = nothing
     sync::Union{Nothing, Bool} = nothing
     method = nothing # spec type: Union{ Nothing, QdrantShardTransferMethod }
+    comment::Union{Nothing, String} = nothing
 
-    function QdrantShardTransferInfo(shard_id, from, to, sync, method, )
+    function QdrantShardTransferInfo(shard_id, from, to, sync, method, comment, )
         OpenAPI.validate_property(QdrantShardTransferInfo, Symbol("shard_id"), shard_id)
         OpenAPI.validate_property(QdrantShardTransferInfo, Symbol("from"), from)
         OpenAPI.validate_property(QdrantShardTransferInfo, Symbol("to"), to)
         OpenAPI.validate_property(QdrantShardTransferInfo, Symbol("sync"), sync)
         OpenAPI.validate_property(QdrantShardTransferInfo, Symbol("method"), method)
-        return new(shard_id, from, to, sync, method, )
+        OpenAPI.validate_property(QdrantShardTransferInfo, Symbol("comment"), comment)
+        return new(shard_id, from, to, sync, method, comment, )
     end
 end # type QdrantShardTransferInfo
 
-const _property_types_QdrantShardTransferInfo = Dict{Symbol,String}(Symbol("shard_id")=>"Int64", Symbol("from")=>"Int64", Symbol("to")=>"Int64", Symbol("sync")=>"Bool", Symbol("method")=>"QdrantShardTransferMethod", )
+const _property_types_QdrantShardTransferInfo = Dict{Symbol,String}(Symbol("shard_id")=>"Int64", Symbol("from")=>"Int64", Symbol("to")=>"Int64", Symbol("sync")=>"Bool", Symbol("method")=>"QdrantShardTransferMethod", Symbol("comment")=>"String", )
 OpenAPI.property_type(::Type{ QdrantShardTransferInfo }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantShardTransferInfo[name]))}
 
 function check_required(o::QdrantShardTransferInfo)

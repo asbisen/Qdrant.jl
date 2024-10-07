@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **storage_type** | [***QdrantVectorStorageType**](QdrantVectorStorageType.md) |  | [default to nothing]
 **index** | [***QdrantIndexes**](QdrantIndexes.md) |  | [default to nothing]
 **quantization_config** | [***QdrantQuantizationConfig**](QdrantQuantizationConfig.md) |  | [optional] [default to nothing]
+**multivector_config** | [***QdrantMultiVectorConfig**](QdrantMultiVectorConfig.md) |  | [optional] [default to nothing]
+**datatype** | [***QdrantVectorStorageDatatype**](QdrantVectorStorageDatatype.md) |  | [optional] [default to nothing]
 
 
 [[Back to Model list]](../README.md#models) [[Back to API list]](../README.md#api-endpoints) [[Back to README]](../README.md)

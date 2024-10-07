@@ -3,7 +3,7 @@
 
 
 @doc raw"""NamedVector
-Vector data with name
+Dense vector data with name
 
     QdrantNamedVector(;
         name=nothing,

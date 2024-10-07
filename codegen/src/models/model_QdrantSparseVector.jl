@@ -10,8 +10,8 @@ Sparse vector structure
         values=nothing,
     )
 
-    - indices::Vector{Int64} : indices must be unique
-    - values::Vector{Float32} : values and indices must be the same length
+    - indices::Vector{Int64} : Indices must be unique
+    - values::Vector{Float32} : Values and indices must be the same length
 """
 Base.@kwdef mutable struct QdrantSparseVector <: OpenAPI.APIModel
     indices::Union{Nothing, Vector{Int64}} = nothing

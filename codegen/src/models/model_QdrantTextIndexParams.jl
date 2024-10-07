@@ -16,7 +16,7 @@
     - tokenizer::QdrantTokenizerType
     - min_token_len::Int64
     - max_token_len::Int64
-    - lowercase::Bool : If true, lowercase all tokens. Default: true
+    - lowercase::Bool : If true, lowercase all tokens. Default: true.
 """
 Base.@kwdef mutable struct QdrantTextIndexParams <: OpenAPI.APIModel
     type = nothing # spec type: Union{ Nothing, QdrantTextIndexType }

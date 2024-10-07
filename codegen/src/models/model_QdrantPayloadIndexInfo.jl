@@ -12,12 +12,12 @@ Display payload field type &amp; index information
     )
 
     - data_type::QdrantPayloadSchemaType
-    - params::QdrantTextIndexParams
+    - params::QdrantPayloadSchemaParams
     - points::Int64 : Number of points indexed with this index
 """
 Base.@kwdef mutable struct QdrantPayloadIndexInfo <: OpenAPI.APIModel
     data_type = nothing # spec type: Union{ Nothing, QdrantPayloadSchemaType }
-    params = nothing # spec type: Union{ Nothing, QdrantTextIndexParams }
+    params = nothing # spec type: Union{ Nothing, QdrantPayloadSchemaParams }
     points::Union{Nothing, Int64} = nothing
 
     function QdrantPayloadIndexInfo(data_type, params, points, )
@@ -28,7 +28,7 @@ Base.@kwdef mutable struct QdrantPayloadIndexInfo <: OpenAPI.APIModel
     end
 end # type QdrantPayloadIndexInfo
 
-const _property_types_QdrantPayloadIndexInfo = Dict{Symbol,String}(Symbol("data_type")=>"QdrantPayloadSchemaType", Symbol("params")=>"QdrantTextIndexParams", Symbol("points")=>"Int64", )
+const _property_types_QdrantPayloadIndexInfo = Dict{Symbol,String}(Symbol("data_type")=>"QdrantPayloadSchemaType", Symbol("params")=>"QdrantPayloadSchemaParams", Symbol("points")=>"Int64", )
 OpenAPI.property_type(::Type{ QdrantPayloadIndexInfo }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantPayloadIndexInfo[name]))}
 
 function check_required(o::QdrantPayloadIndexInfo)

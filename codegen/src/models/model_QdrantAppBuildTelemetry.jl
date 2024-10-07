@@ -9,6 +9,7 @@
         version=nothing,
         features=nothing,
         system=nothing,
+        jwt_rbac=nothing,
         startup=nothing,
     )
 
@@ -16,6 +17,7 @@
     - version::String
     - features::QdrantAppFeaturesTelemetry
     - system::QdrantRunningEnvironmentTelemetry
+    - jwt_rbac::Bool
     - startup::ZonedDateTime
 """
 Base.@kwdef mutable struct QdrantAppBuildTelemetry <: OpenAPI.APIModel
@@ -23,19 +25,21 @@ Base.@kwdef mutable struct QdrantAppBuildTelemetry <: OpenAPI.APIModel
     version::Union{Nothing, String} = nothing
     features = nothing # spec type: Union{ Nothing, QdrantAppFeaturesTelemetry }
     system = nothing # spec type: Union{ Nothing, QdrantRunningEnvironmentTelemetry }
+    jwt_rbac::Union{Nothing, Bool} = nothing
     startup::Union{Nothing, ZonedDateTime} = nothing
 
-    function QdrantAppBuildTelemetry(name, version, features, system, startup, )
+    function QdrantAppBuildTelemetry(name, version, features, system, jwt_rbac, startup, )
         OpenAPI.validate_property(QdrantAppBuildTelemetry, Symbol("name"), name)
         OpenAPI.validate_property(QdrantAppBuildTelemetry, Symbol("version"), version)
         OpenAPI.validate_property(QdrantAppBuildTelemetry, Symbol("features"), features)
         OpenAPI.validate_property(QdrantAppBuildTelemetry, Symbol("system"), system)
+        OpenAPI.validate_property(QdrantAppBuildTelemetry, Symbol("jwt_rbac"), jwt_rbac)
         OpenAPI.validate_property(QdrantAppBuildTelemetry, Symbol("startup"), startup)
-        return new(name, version, features, system, startup, )
+        return new(name, version, features, system, jwt_rbac, startup, )
     end
 end # type QdrantAppBuildTelemetry
 
-const _property_types_QdrantAppBuildTelemetry = Dict{Symbol,String}(Symbol("name")=>"String", Symbol("version")=>"String", Symbol("features")=>"QdrantAppFeaturesTelemetry", Symbol("system")=>"QdrantRunningEnvironmentTelemetry", Symbol("startup")=>"ZonedDateTime", )
+const _property_types_QdrantAppBuildTelemetry = Dict{Symbol,String}(Symbol("name")=>"String", Symbol("version")=>"String", Symbol("features")=>"QdrantAppFeaturesTelemetry", Symbol("system")=>"QdrantRunningEnvironmentTelemetry", Symbol("jwt_rbac")=>"Bool", Symbol("startup")=>"ZonedDateTime", )
 OpenAPI.property_type(::Type{ QdrantAppBuildTelemetry }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantAppBuildTelemetry[name]))}
 
 function check_required(o::QdrantAppBuildTelemetry)

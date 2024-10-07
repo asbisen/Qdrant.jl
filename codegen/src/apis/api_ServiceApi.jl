@@ -109,7 +109,7 @@ const _returntypes_metrics_ServiceApi = Dict{Regex,Type}(
 
 function _oacinternal_metrics(_api::ServiceApi; anonymize=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "GET", _returntypes_metrics_ServiceApi, "/metrics", ["api-key", "bearerAuth", ])
-    OpenAPI.Clients.set_param(_ctx.query, "anonymize", anonymize)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "anonymize", anonymize; style="form", is_explode=true)  # type Bool
     OpenAPI.Clients.set_header_accept(_ctx, ["text/plain", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -196,6 +196,36 @@ function readyz(_api::ServiceApi, response_stream::Channel; _mediaType=nothing)
     return OpenAPI.Clients.exec(_ctx, response_stream)
 end
 
+const _returntypes_root_ServiceApi = Dict{Regex,Type}(
+    Regex("^" * replace("200", "x"=>".") * "\$") => QdrantVersionInfo,
+    Regex("^" * replace("4XX", "x"=>".") * "\$") => Nothing,
+)
+
+function _oacinternal_root(_api::ServiceApi; _mediaType=nothing)
+    _ctx = OpenAPI.Clients.Ctx(_api.client, "GET", _returntypes_root_ServiceApi, "/", ["api-key", "bearerAuth", ])
+    OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
+    OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
+    return _ctx
+end
+
+@doc raw"""Returns information about the running Qdrant instance
+
+Returns information about the running Qdrant instance like version and commit id
+
+Params:
+
+Return: QdrantVersionInfo, OpenAPI.Clients.ApiResponse
+"""
+function root(_api::ServiceApi; _mediaType=nothing)
+    _ctx = _oacinternal_root(_api; _mediaType=_mediaType)
+    return OpenAPI.Clients.exec(_ctx)
+end
+
+function root(_api::ServiceApi, response_stream::Channel; _mediaType=nothing)
+    _ctx = _oacinternal_root(_api; _mediaType=_mediaType)
+    return OpenAPI.Clients.exec(_ctx, response_stream)
+end
+
 const _returntypes_telemetry_ServiceApi = Dict{Regex,Type}(
     Regex("^" * replace("200", "x"=>".") * "\$") => QdrantTelemetry200Response,
     Regex("^" * replace("4XX", "x"=>".") * "\$") => QdrantErrorResponse,
@@ -204,7 +234,7 @@ const _returntypes_telemetry_ServiceApi = Dict{Regex,Type}(
 
 function _oacinternal_telemetry(_api::ServiceApi; anonymize=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "GET", _returntypes_telemetry_ServiceApi, "/telemetry", ["api-key", "bearerAuth", ])
-    OpenAPI.Clients.set_param(_ctx.query, "anonymize", anonymize)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "anonymize", anonymize; style="form", is_explode=true)  # type Bool
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -235,4 +265,5 @@ export livez
 export metrics
 export post_locks
 export readyz
+export root
 export telemetry

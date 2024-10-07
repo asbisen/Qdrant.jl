@@ -12,6 +12,7 @@ Search result
         payload=nothing,
         vector=nothing,
         shard_key=nothing,
+        order_value=nothing,
     )
 
     - id::QdrantExtendedPointId
@@ -20,6 +21,7 @@ Search result
     - payload::Dict{String, Any}
     - vector::QdrantVectorStruct
     - shard_key::QdrantShardKey
+    - order_value::QdrantOrderValue
 """
 Base.@kwdef mutable struct QdrantScoredPoint <: OpenAPI.APIModel
     id = nothing # spec type: Union{ Nothing, QdrantExtendedPointId }
@@ -28,19 +30,21 @@ Base.@kwdef mutable struct QdrantScoredPoint <: OpenAPI.APIModel
     payload::Union{Nothing, Dict{String, Any}} = nothing
     vector = nothing # spec type: Union{ Nothing, QdrantVectorStruct }
     shard_key = nothing # spec type: Union{ Nothing, QdrantShardKey }
+    order_value = nothing # spec type: Union{ Nothing, QdrantOrderValue }
 
-    function QdrantScoredPoint(id, version, score, payload, vector, shard_key, )
+    function QdrantScoredPoint(id, version, score, payload, vector, shard_key, order_value, )
         OpenAPI.validate_property(QdrantScoredPoint, Symbol("id"), id)
         OpenAPI.validate_property(QdrantScoredPoint, Symbol("version"), version)
         OpenAPI.validate_property(QdrantScoredPoint, Symbol("score"), score)
         OpenAPI.validate_property(QdrantScoredPoint, Symbol("payload"), payload)
         OpenAPI.validate_property(QdrantScoredPoint, Symbol("vector"), vector)
         OpenAPI.validate_property(QdrantScoredPoint, Symbol("shard_key"), shard_key)
-        return new(id, version, score, payload, vector, shard_key, )
+        OpenAPI.validate_property(QdrantScoredPoint, Symbol("order_value"), order_value)
+        return new(id, version, score, payload, vector, shard_key, order_value, )
     end
 end # type QdrantScoredPoint
 
-const _property_types_QdrantScoredPoint = Dict{Symbol,String}(Symbol("id")=>"QdrantExtendedPointId", Symbol("version")=>"Int64", Symbol("score")=>"Float32", Symbol("payload")=>"Dict{String, Any}", Symbol("vector")=>"QdrantVectorStruct", Symbol("shard_key")=>"QdrantShardKey", )
+const _property_types_QdrantScoredPoint = Dict{Symbol,String}(Symbol("id")=>"QdrantExtendedPointId", Symbol("version")=>"Int64", Symbol("score")=>"Float32", Symbol("payload")=>"Dict{String, Any}", Symbol("vector")=>"QdrantVectorStruct", Symbol("shard_key")=>"QdrantShardKey", Symbol("order_value")=>"QdrantOrderValue", )
 OpenAPI.property_type(::Type{ QdrantScoredPoint }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantScoredPoint[name]))}
 
 function check_required(o::QdrantScoredPoint)

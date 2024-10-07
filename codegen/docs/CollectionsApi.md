@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost:6333*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**collection_cluster_info**](CollectionsApi.md#collection_cluster_info) | **GET** /collections/{collection_name}/cluster | Collection cluster info
+[**collection_exists**](CollectionsApi.md#collection_exists) | **GET** /collections/{collection_name}/exists | Check the existence of a collection
 [**create_collection**](CollectionsApi.md#create_collection) | **PUT** /collections/{collection_name} | Create collection
 [**create_field_index**](CollectionsApi.md#create_field_index) | **PUT** /collections/{collection_name}/index | Create index for field in collection
 [**create_shard_key**](CollectionsApi.md#create_shard_key) | **PUT** /collections/{collection_name}/shards | Create shard key
@@ -50,6 +51,36 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**QdrantCollectionClusterInfo200Response**](QdrantCollectionClusterInfo200Response.md)
+
+### Authorization
+
+[api-key](../README.md#api-key), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+# **collection_exists**
+> collection_exists(_api::CollectionsApi, collection_name::String; _mediaType=nothing) -> QdrantCollectionExists200Response, OpenAPI.Clients.ApiResponse <br/>
+> collection_exists(_api::CollectionsApi, response_stream::Channel, collection_name::String; _mediaType=nothing) -> Channel{ QdrantCollectionExists200Response }, OpenAPI.Clients.ApiResponse
+
+Check the existence of a collection
+
+Returns \"true\" if the given collection name exists, and \"false\" otherwise
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **_api** | **CollectionsApi** | API context | 
+**collection_name** | **String**| Name of the collection | [default to nothing]
+
+### Return type
+
+[**QdrantCollectionExists200Response**](QdrantCollectionExists200Response.md)
 
 ### Authorization
 
@@ -703,8 +734,8 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 # **recover_from_uploaded_snapshot**
-> recover_from_uploaded_snapshot(_api::CollectionsApi, collection_name::String; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing) -> QdrantCreateShardKey200Response, OpenAPI.Clients.ApiResponse <br/>
-> recover_from_uploaded_snapshot(_api::CollectionsApi, response_stream::Channel, collection_name::String; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing) -> Channel{ QdrantCreateShardKey200Response }, OpenAPI.Clients.ApiResponse
+> recover_from_uploaded_snapshot(_api::CollectionsApi, collection_name::String; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing) -> QdrantCreateShardKey200Response, OpenAPI.Clients.ApiResponse <br/>
+> recover_from_uploaded_snapshot(_api::CollectionsApi, response_stream::Channel, collection_name::String; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing) -> Channel{ QdrantCreateShardKey200Response }, OpenAPI.Clients.ApiResponse
 
 Recover from an uploaded snapshot
 
@@ -723,6 +754,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **wait** | **Bool**| If true, wait for changes to actually happen. If false - let changes happen in background. Default is true. | [default to nothing]
  **priority** | [**QdrantSnapshotPriority**](.md)| Defines source of truth for snapshot recovery | [default to nothing]
+ **checksum** | **String**| Optional SHA256 checksum to verify snapshot integrity before recovery. | [default to nothing]
  **snapshot** | **String****String**|  | [default to nothing]
 
 ### Return type
@@ -779,8 +811,8 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 # **recover_shard_from_uploaded_snapshot**
-> recover_shard_from_uploaded_snapshot(_api::CollectionsApi, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing) -> QdrantCreateShardKey200Response, OpenAPI.Clients.ApiResponse <br/>
-> recover_shard_from_uploaded_snapshot(_api::CollectionsApi, response_stream::Channel, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing) -> Channel{ QdrantCreateShardKey200Response }, OpenAPI.Clients.ApiResponse
+> recover_shard_from_uploaded_snapshot(_api::CollectionsApi, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing) -> QdrantCreateShardKey200Response, OpenAPI.Clients.ApiResponse <br/>
+> recover_shard_from_uploaded_snapshot(_api::CollectionsApi, response_stream::Channel, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing) -> Channel{ QdrantCreateShardKey200Response }, OpenAPI.Clients.ApiResponse
 
 Recover shard from an uploaded snapshot
 
@@ -800,6 +832,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **wait** | **Bool**| If true, wait for changes to actually happen. If false - let changes happen in background. Default is true. | [default to nothing]
  **priority** | [**QdrantSnapshotPriority**](.md)| Defines source of truth for snapshot recovery | [default to nothing]
+ **checksum** | **String**| Optional SHA256 checksum to verify snapshot integrity before recovery. | [default to nothing]
  **snapshot** | **String****String**|  | [default to nothing]
 
 ### Return type

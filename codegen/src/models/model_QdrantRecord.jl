@@ -10,29 +10,33 @@ Point data
         payload=nothing,
         vector=nothing,
         shard_key=nothing,
+        order_value=nothing,
     )
 
     - id::QdrantExtendedPointId
     - payload::Dict{String, Any}
     - vector::QdrantVectorStruct
     - shard_key::QdrantShardKey
+    - order_value::QdrantOrderValue
 """
 Base.@kwdef mutable struct QdrantRecord <: OpenAPI.APIModel
     id = nothing # spec type: Union{ Nothing, QdrantExtendedPointId }
     payload::Union{Nothing, Dict{String, Any}} = nothing
     vector = nothing # spec type: Union{ Nothing, QdrantVectorStruct }
     shard_key = nothing # spec type: Union{ Nothing, QdrantShardKey }
+    order_value = nothing # spec type: Union{ Nothing, QdrantOrderValue }
 
-    function QdrantRecord(id, payload, vector, shard_key, )
+    function QdrantRecord(id, payload, vector, shard_key, order_value, )
         OpenAPI.validate_property(QdrantRecord, Symbol("id"), id)
         OpenAPI.validate_property(QdrantRecord, Symbol("payload"), payload)
         OpenAPI.validate_property(QdrantRecord, Symbol("vector"), vector)
         OpenAPI.validate_property(QdrantRecord, Symbol("shard_key"), shard_key)
-        return new(id, payload, vector, shard_key, )
+        OpenAPI.validate_property(QdrantRecord, Symbol("order_value"), order_value)
+        return new(id, payload, vector, shard_key, order_value, )
     end
 end # type QdrantRecord
 
-const _property_types_QdrantRecord = Dict{Symbol,String}(Symbol("id")=>"QdrantExtendedPointId", Symbol("payload")=>"Dict{String, Any}", Symbol("vector")=>"QdrantVectorStruct", Symbol("shard_key")=>"QdrantShardKey", )
+const _property_types_QdrantRecord = Dict{Symbol,String}(Symbol("id")=>"QdrantExtendedPointId", Symbol("payload")=>"Dict{String, Any}", Symbol("vector")=>"QdrantVectorStruct", Symbol("shard_key")=>"QdrantShardKey", Symbol("order_value")=>"QdrantOrderValue", )
 OpenAPI.property_type(::Type{ QdrantRecord }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantRecord[name]))}
 
 function check_required(o::QdrantRecord)

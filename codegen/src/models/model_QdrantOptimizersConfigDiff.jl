@@ -22,7 +22,7 @@
     - memmap_threshold::Int64 : Maximum size (in kilobytes) of vectors to store in-memory per segment. Segments larger than this threshold will be stored as read-only memmaped file.  Memmap storage is disabled by default, to enable it, set this threshold to a reasonable value.  To disable memmap storage, set this to &#x60;0&#x60;.  Note: 1Kb &#x3D; 1 vector of size 256
     - indexing_threshold::Int64 : Maximum size (in kilobytes) of vectors allowed for plain index, exceeding this threshold will enable vector indexing  Default value is 20,000, based on &lt;https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md&gt;.  To disable vector indexing, set to &#x60;0&#x60;.  Note: 1kB &#x3D; 1 vector of size 256.
     - flush_interval_sec::Int64 : Minimum interval between forced flushes.
-    - max_optimization_threads::Int64 : Maximum available threads for optimization workers
+    - max_optimization_threads::Int64 : Max number of threads (jobs) for running optimizations per shard. Note: each optimization job will also use &#x60;max_indexing_threads&#x60; threads by itself for index building. If null - have no limit and choose dynamically to saturate CPU. If 0 - no optimization threads, optimizations will be disabled.
 """
 Base.@kwdef mutable struct QdrantOptimizersConfigDiff <: OpenAPI.APIModel
     deleted_threshold::Union{Nothing, Float64} = nothing

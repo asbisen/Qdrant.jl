@@ -8,7 +8,7 @@
     QdrantPayloadFieldSchema(; value=nothing)
 """
 mutable struct QdrantPayloadFieldSchema <: OpenAPI.AnyOfAPIModel
-    value::Any # Union{ QdrantPayloadSchemaType, QdrantTextIndexParams }
+    value::Any # Union{ QdrantPayloadSchemaParams, QdrantPayloadSchemaType }
     QdrantPayloadFieldSchema() = new()
     QdrantPayloadFieldSchema(value) = new(value)
 end # type QdrantPayloadFieldSchema

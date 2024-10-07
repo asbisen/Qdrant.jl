@@ -8,7 +8,7 @@
     QdrantClusterOperations(; value=nothing)
 """
 mutable struct QdrantClusterOperations <: OpenAPI.AnyOfAPIModel
-    value::Any # Union{ QdrantAbortTransferOperation, QdrantCreateShardingKeyOperation, QdrantDropReplicaOperation, QdrantDropShardingKeyOperation, QdrantMoveShardOperation, QdrantReplicateShardOperation }
+    value::Any # Union{ QdrantAbortTransferOperation, QdrantCreateShardingKeyOperation, QdrantDropReplicaOperation, QdrantDropShardingKeyOperation, QdrantMoveShardOperation, QdrantReplicateShardOperation, QdrantRestartTransferOperation }
     QdrantClusterOperations() = new()
     QdrantClusterOperations(value) = new(value)
 end # type QdrantClusterOperations

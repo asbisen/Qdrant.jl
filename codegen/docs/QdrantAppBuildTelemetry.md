@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **version** | **String** |  | [default to nothing]
 **features** | [***QdrantAppFeaturesTelemetry**](QdrantAppFeaturesTelemetry.md) |  | [optional] [default to nothing]
 **system** | [***QdrantRunningEnvironmentTelemetry**](QdrantRunningEnvironmentTelemetry.md) |  | [optional] [default to nothing]
+**jwt_rbac** | **Bool** |  | [optional] [default to nothing]
 **startup** | **ZonedDateTime** |  | [default to nothing]
 
 

@@ -11,6 +11,8 @@ Params of single vector data storage
         hnsw_config=nothing,
         quantization_config=nothing,
         on_disk=nothing,
+        datatype=nothing,
+        multivector_config=nothing,
     )
 
     - size::Int64 : Size of a vectors used
@@ -18,6 +20,8 @@ Params of single vector data storage
     - hnsw_config::QdrantHnswConfigDiff
     - quantization_config::QdrantQuantizationConfig
     - on_disk::Bool : If true, vectors are served from disk, improving RAM usage at the cost of latency Default: false
+    - datatype::QdrantDatatype
+    - multivector_config::QdrantMultiVectorConfig
 """
 Base.@kwdef mutable struct QdrantVectorParams <: OpenAPI.APIModel
     size::Union{Nothing, Int64} = nothing
@@ -25,18 +29,22 @@ Base.@kwdef mutable struct QdrantVectorParams <: OpenAPI.APIModel
     hnsw_config = nothing # spec type: Union{ Nothing, QdrantHnswConfigDiff }
     quantization_config = nothing # spec type: Union{ Nothing, QdrantQuantizationConfig }
     on_disk::Union{Nothing, Bool} = nothing
+    datatype = nothing # spec type: Union{ Nothing, QdrantDatatype }
+    multivector_config = nothing # spec type: Union{ Nothing, QdrantMultiVectorConfig }
 
-    function QdrantVectorParams(size, distance, hnsw_config, quantization_config, on_disk, )
+    function QdrantVectorParams(size, distance, hnsw_config, quantization_config, on_disk, datatype, multivector_config, )
         OpenAPI.validate_property(QdrantVectorParams, Symbol("size"), size)
         OpenAPI.validate_property(QdrantVectorParams, Symbol("distance"), distance)
         OpenAPI.validate_property(QdrantVectorParams, Symbol("hnsw_config"), hnsw_config)
         OpenAPI.validate_property(QdrantVectorParams, Symbol("quantization_config"), quantization_config)
         OpenAPI.validate_property(QdrantVectorParams, Symbol("on_disk"), on_disk)
-        return new(size, distance, hnsw_config, quantization_config, on_disk, )
+        OpenAPI.validate_property(QdrantVectorParams, Symbol("datatype"), datatype)
+        OpenAPI.validate_property(QdrantVectorParams, Symbol("multivector_config"), multivector_config)
+        return new(size, distance, hnsw_config, quantization_config, on_disk, datatype, multivector_config, )
     end
 end # type QdrantVectorParams
 
-const _property_types_QdrantVectorParams = Dict{Symbol,String}(Symbol("size")=>"Int64", Symbol("distance")=>"QdrantDistance", Symbol("hnsw_config")=>"QdrantHnswConfigDiff", Symbol("quantization_config")=>"QdrantQuantizationConfig", Symbol("on_disk")=>"Bool", )
+const _property_types_QdrantVectorParams = Dict{Symbol,String}(Symbol("size")=>"Int64", Symbol("distance")=>"QdrantDistance", Symbol("hnsw_config")=>"QdrantHnswConfigDiff", Symbol("quantization_config")=>"QdrantQuantizationConfig", Symbol("on_disk")=>"Bool", Symbol("datatype")=>"QdrantDatatype", Symbol("multivector_config")=>"QdrantMultiVectorConfig", )
 OpenAPI.property_type(::Type{ QdrantVectorParams }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_QdrantVectorParams[name]))}
 
 function check_required(o::QdrantVectorParams)

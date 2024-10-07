@@ -20,7 +20,7 @@ const _returntypes_create_full_snapshot_SnapshotsApi = Dict{Regex,Type}(
 
 function _oacinternal_create_full_snapshot(_api::SnapshotsApi; wait=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_create_full_snapshot_SnapshotsApi, "/snapshots", ["api-key", "bearerAuth", ])
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -56,7 +56,7 @@ function _oacinternal_create_shard_snapshot(_api::SnapshotsApi, collection_name:
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_create_shard_snapshot_SnapshotsApi, "/collections/{collection_name}/shards/{shard_id}/snapshots", ["api-key", "bearerAuth", ])
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
     OpenAPI.Clients.set_param(_ctx.path, "shard_id", shard_id)  # type Int64
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -93,7 +93,7 @@ const _returntypes_create_snapshot_SnapshotsApi = Dict{Regex,Type}(
 function _oacinternal_create_snapshot(_api::SnapshotsApi, collection_name::String; wait=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_create_snapshot_SnapshotsApi, "/collections/{collection_name}/snapshots", ["api-key", "bearerAuth", ])
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -129,7 +129,7 @@ const _returntypes_delete_full_snapshot_SnapshotsApi = Dict{Regex,Type}(
 function _oacinternal_delete_full_snapshot(_api::SnapshotsApi, snapshot_name::String; wait=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "DELETE", _returntypes_delete_full_snapshot_SnapshotsApi, "/snapshots/{snapshot_name}", ["api-key", "bearerAuth", ])
     OpenAPI.Clients.set_param(_ctx.path, "snapshot_name", snapshot_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -167,7 +167,7 @@ function _oacinternal_delete_shard_snapshot(_api::SnapshotsApi, collection_name:
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
     OpenAPI.Clients.set_param(_ctx.path, "shard_id", shard_id)  # type Int64
     OpenAPI.Clients.set_param(_ctx.path, "snapshot_name", snapshot_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -206,7 +206,7 @@ function _oacinternal_delete_snapshot(_api::SnapshotsApi, collection_name::Strin
     _ctx = OpenAPI.Clients.Ctx(_api.client, "DELETE", _returntypes_delete_snapshot_SnapshotsApi, "/collections/{collection_name}/snapshots/{snapshot_name}", ["api-key", "bearerAuth", ])
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
     OpenAPI.Clients.set_param(_ctx.path, "snapshot_name", snapshot_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -447,7 +447,7 @@ const _returntypes_recover_from_snapshot_SnapshotsApi = Dict{Regex,Type}(
 function _oacinternal_recover_from_snapshot(_api::SnapshotsApi, collection_name::String; wait=nothing, qdrant_snapshot_recover=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "PUT", _returntypes_recover_from_snapshot_SnapshotsApi, "/collections/{collection_name}/snapshots/recover", ["api-key", "bearerAuth", ], qdrant_snapshot_recover)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -481,11 +481,12 @@ const _returntypes_recover_from_uploaded_snapshot_SnapshotsApi = Dict{Regex,Type
     Regex("^" * replace("0", "x"=>".") * "\$") => QdrantErrorResponse,
 )
 
-function _oacinternal_recover_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing)
+function _oacinternal_recover_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_recover_from_uploaded_snapshot_SnapshotsApi, "/collections/{collection_name}/snapshots/upload", ["api-key", "bearerAuth", ])
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
-    OpenAPI.Clients.set_param(_ctx.query, "priority", priority)  # type QdrantSnapshotPriority
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "priority", priority; style="form", is_explode=true)  # type QdrantSnapshotPriority
+    OpenAPI.Clients.set_param(_ctx.query, "checksum", checksum; style="form", is_explode=true)  # type String
     OpenAPI.Clients.set_param(_ctx.file, "snapshot", snapshot)  # type Vector{UInt8}
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["multipart/form-data", ] : [_mediaType])
@@ -500,17 +501,18 @@ Params:
 - collection_name::String (required)
 - wait::Bool
 - priority::QdrantSnapshotPriority
+- checksum::String
 - snapshot::String
 
 Return: QdrantCreateShardKey200Response, OpenAPI.Clients.ApiResponse
 """
-function recover_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing)
-    _ctx = _oacinternal_recover_from_uploaded_snapshot(_api, collection_name; wait=wait, priority=priority, snapshot=snapshot, _mediaType=_mediaType)
+function recover_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_recover_from_uploaded_snapshot(_api, collection_name; wait=wait, priority=priority, checksum=checksum, snapshot=snapshot, _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx)
 end
 
-function recover_from_uploaded_snapshot(_api::SnapshotsApi, response_stream::Channel, collection_name::String; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing)
-    _ctx = _oacinternal_recover_from_uploaded_snapshot(_api, collection_name; wait=wait, priority=priority, snapshot=snapshot, _mediaType=_mediaType)
+function recover_from_uploaded_snapshot(_api::SnapshotsApi, response_stream::Channel, collection_name::String; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_recover_from_uploaded_snapshot(_api, collection_name; wait=wait, priority=priority, checksum=checksum, snapshot=snapshot, _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx, response_stream)
 end
 
@@ -525,7 +527,7 @@ function _oacinternal_recover_shard_from_snapshot(_api::SnapshotsApi, collection
     _ctx = OpenAPI.Clients.Ctx(_api.client, "PUT", _returntypes_recover_shard_from_snapshot_SnapshotsApi, "/collections/{collection_name}/shards/{shard_id}/snapshots/recover", ["api-key", "bearerAuth", ], qdrant_shard_snapshot_recover)
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
     OpenAPI.Clients.set_param(_ctx.path, "shard_id", shard_id)  # type Int64
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["application/json", ] : [_mediaType])
     return _ctx
@@ -560,12 +562,13 @@ const _returntypes_recover_shard_from_uploaded_snapshot_SnapshotsApi = Dict{Rege
     Regex("^" * replace("0", "x"=>".") * "\$") => QdrantErrorResponse,
 )
 
-function _oacinternal_recover_shard_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing)
+function _oacinternal_recover_shard_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "POST", _returntypes_recover_shard_from_uploaded_snapshot_SnapshotsApi, "/collections/{collection_name}/shards/{shard_id}/snapshots/upload", ["api-key", "bearerAuth", ])
     OpenAPI.Clients.set_param(_ctx.path, "collection_name", collection_name)  # type String
     OpenAPI.Clients.set_param(_ctx.path, "shard_id", shard_id)  # type Int64
-    OpenAPI.Clients.set_param(_ctx.query, "wait", wait)  # type Bool
-    OpenAPI.Clients.set_param(_ctx.query, "priority", priority)  # type QdrantSnapshotPriority
+    OpenAPI.Clients.set_param(_ctx.query, "wait", wait; style="form", is_explode=true)  # type Bool
+    OpenAPI.Clients.set_param(_ctx.query, "priority", priority; style="form", is_explode=true)  # type QdrantSnapshotPriority
+    OpenAPI.Clients.set_param(_ctx.query, "checksum", checksum; style="form", is_explode=true)  # type String
     OpenAPI.Clients.set_param(_ctx.file, "snapshot", snapshot)  # type Vector{UInt8}
     OpenAPI.Clients.set_header_accept(_ctx, ["application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? ["multipart/form-data", ] : [_mediaType])
@@ -581,17 +584,18 @@ Params:
 - shard_id::Int64 (required)
 - wait::Bool
 - priority::QdrantSnapshotPriority
+- checksum::String
 - snapshot::String
 
 Return: QdrantCreateShardKey200Response, OpenAPI.Clients.ApiResponse
 """
-function recover_shard_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing)
-    _ctx = _oacinternal_recover_shard_from_uploaded_snapshot(_api, collection_name, shard_id; wait=wait, priority=priority, snapshot=snapshot, _mediaType=_mediaType)
+function recover_shard_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_recover_shard_from_uploaded_snapshot(_api, collection_name, shard_id; wait=wait, priority=priority, checksum=checksum, snapshot=snapshot, _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx)
 end
 
-function recover_shard_from_uploaded_snapshot(_api::SnapshotsApi, response_stream::Channel, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing)
-    _ctx = _oacinternal_recover_shard_from_uploaded_snapshot(_api, collection_name, shard_id; wait=wait, priority=priority, snapshot=snapshot, _mediaType=_mediaType)
+function recover_shard_from_uploaded_snapshot(_api::SnapshotsApi, response_stream::Channel, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing)
+    _ctx = _oacinternal_recover_shard_from_uploaded_snapshot(_api, collection_name, shard_id; wait=wait, priority=priority, checksum=checksum, snapshot=snapshot, _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx, response_stream)
 end
 

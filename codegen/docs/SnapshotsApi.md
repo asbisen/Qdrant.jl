@@ -459,8 +459,8 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 # **recover_from_uploaded_snapshot**
-> recover_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing) -> QdrantCreateShardKey200Response, OpenAPI.Clients.ApiResponse <br/>
-> recover_from_uploaded_snapshot(_api::SnapshotsApi, response_stream::Channel, collection_name::String; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing) -> Channel{ QdrantCreateShardKey200Response }, OpenAPI.Clients.ApiResponse
+> recover_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing) -> QdrantCreateShardKey200Response, OpenAPI.Clients.ApiResponse <br/>
+> recover_from_uploaded_snapshot(_api::SnapshotsApi, response_stream::Channel, collection_name::String; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing) -> Channel{ QdrantCreateShardKey200Response }, OpenAPI.Clients.ApiResponse
 
 Recover from an uploaded snapshot
 
@@ -479,6 +479,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **wait** | **Bool**| If true, wait for changes to actually happen. If false - let changes happen in background. Default is true. | [default to nothing]
  **priority** | [**QdrantSnapshotPriority**](.md)| Defines source of truth for snapshot recovery | [default to nothing]
+ **checksum** | **String**| Optional SHA256 checksum to verify snapshot integrity before recovery. | [default to nothing]
  **snapshot** | **String****String**|  | [default to nothing]
 
 ### Return type
@@ -535,8 +536,8 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 # **recover_shard_from_uploaded_snapshot**
-> recover_shard_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing) -> QdrantCreateShardKey200Response, OpenAPI.Clients.ApiResponse <br/>
-> recover_shard_from_uploaded_snapshot(_api::SnapshotsApi, response_stream::Channel, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, snapshot=nothing, _mediaType=nothing) -> Channel{ QdrantCreateShardKey200Response }, OpenAPI.Clients.ApiResponse
+> recover_shard_from_uploaded_snapshot(_api::SnapshotsApi, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing) -> QdrantCreateShardKey200Response, OpenAPI.Clients.ApiResponse <br/>
+> recover_shard_from_uploaded_snapshot(_api::SnapshotsApi, response_stream::Channel, collection_name::String, shard_id::Int64; wait=nothing, priority=nothing, checksum=nothing, snapshot=nothing, _mediaType=nothing) -> Channel{ QdrantCreateShardKey200Response }, OpenAPI.Clients.ApiResponse
 
 Recover shard from an uploaded snapshot
 
@@ -556,6 +557,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **wait** | **Bool**| If true, wait for changes to actually happen. If false - let changes happen in background. Default is true. | [default to nothing]
  **priority** | [**QdrantSnapshotPriority**](.md)| Defines source of truth for snapshot recovery | [default to nothing]
+ **checksum** | **String**| Optional SHA256 checksum to verify snapshot integrity before recovery. | [default to nothing]
  **snapshot** | **String****String**|  | [default to nothing]
 
 ### Return type

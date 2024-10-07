@@ -9,7 +9,7 @@ Full vector data per point separator with single and multiple vector modes
     QdrantVectorStruct(; value=nothing)
 """
 mutable struct QdrantVectorStruct <: OpenAPI.AnyOfAPIModel
-    value::Any # Union{ Dict{String, QdrantVector}, Vector{Float32} }
+    value::Any # Union{ Dict{String, QdrantVector}, Vector{Float32}, Vector{Vector{Float32}} }
     QdrantVectorStruct() = new()
     QdrantVectorStruct(value) = new(value)
 end # type QdrantVectorStruct
