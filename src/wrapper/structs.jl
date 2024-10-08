@@ -68,7 +68,8 @@ end
 Configure scalar quantization in Qdrant using a provided scalar quantization configuration object.
 
 # Arguments
-- `scalar=QdrantScalarQuantizationConfig()`: A configuration object for scalar quantization. By default, it uses the default settings of `QdrantScalarQuantizationConfig`, which includes `type="int8"`, `quantile=0.7`, and `always_ram=false`.
+- `scalar=QdrantScalarQuantizationConfig()`: A configuration object for scalar quantization. By default,
+it uses the default settings of `QdrantScalarQuantizationConfig`, which includes `type="int8"`, `quantile=0.7`, and `always_ram=false`.
 
 # Returns
 A `QdrantScalarQuantization` object configured with the specified scalar quantization settings.
@@ -146,7 +147,7 @@ function QdrantVectorParams(; size::Int=768,
     quantization_config::Union{Nothing,QdrantRestApi.QdrantScalarQuantizationConfig}=nothing,
     on_disk::Bool=false,
     datatype::Union{Nothing,QdrantRestApi.QdrantDatatype}=nothing,
-    multivector_config::Union{Nothing,QdrantMultiVectorConfig}=nothing
+    multivector_config::Union{Nothing,QdrantRestApi.QdrantMultiVectorConfig}=nothing
 )
 
     return QdrantRestApi.QdrantVectorParams(size=size,
@@ -365,4 +366,53 @@ end
 
 function QdrantShardKeySelector(; value::Union{Nothing,String}=nothing)
     return QdrantRestApi.QdrantShardKeySelector(value=value)
+end
+
+
+"""
+    QdrantSearchRequest(vector::Any, limit::Int;
+        shard_key::Union{Nothing,QdrantRestApi.QdrantShardKeySelector}=nothing,
+        filter::Union{Nothing,QdrantRestApi.QdrantFilter}=nothing,
+        params::Union{Nothing,QdrantRestApi.QdrantSearchParams}=nothing,
+        offset::Union{Nothing,Int}=nothing,
+        with_payload::Bool=true,
+        with_vector::Bool=false,
+        score_threshold::Union{Nothing,Float64}=nothing)
+
+Create a search request for querying vectors in Qdrant.
+
+# Arguments
+- `vector::Any`: The query vector for the search.
+- `limit::Int`: The maximum number of results to return.
+- `shard_key::Union{Nothing,QdrantRestApi.QdrantShardKeySelector}=nothing`: The shard key selector. Default is `nothing`.
+- `filter::Union{Nothing,QdrantRestApi.QdrantFilter}=nothing`: The filter to apply for search. Default is `nothing`.
+- `params::Union{Nothing,QdrantRestApi.QdrantSearchParams}=nothing`: The search parameters. Default is `nothing`.
+- `offset::Union{Nothing,Int}=nothing`: The offset for search results. Default is `nothing`.
+- `with_payload::Bool=true`: Whether to include payload in the search results. Default is `true`.
+- `with_vector::Bool=false`: Whether to include vectors in the search results. Default is `false`.
+- `score_threshold::Union{Nothing,Float64}=nothing`: The score threshold for considering matches. Default is `nothing`.
+
+# Returns
+A `QdrantSearchRequest` object configured with the provided search parameters.
+"""
+function QdrantSearchRequest(vector::Any, limit::Int;
+    shard_key::Union{Nothing,QdrantRestApi.QdrantShardKeySelector}=nothing,
+    filter::Union{Nothing,QdrantRestApi.QdrantFilter}=nothing,
+    params::Union{Nothing,QdrantRestApi.QdrantSearchParams}=nothing,
+    offset::Union{Nothing,Int}=nothing,
+    with_payload::Bool=true,
+    with_vector::Bool=false,
+    score_threshold::Union{Nothing,Float64}=nothing)
+
+    return QdrantRestApi.QdrantSearchRequest(;
+        vector=vector,
+        limit=limit,
+        shard_key=shard_key,
+        filter=filter,
+        params=params,
+        offset=offset,
+        with_payload=with_payload,
+        with_vector=with_vector,
+        score_threshold=score_threshold
+    )
 end

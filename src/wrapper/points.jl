@@ -4,7 +4,6 @@ using OpenAPI.Clients: Client
 using Qdrant
 
 
-
 """
     upsert_points(connection::QdrantConnection, collection_name::String, points::Vector{QdrantRestApi.QdrantPointStruct})
 
@@ -25,7 +24,7 @@ Upserts a list of points into a specified Qdrant collection.
 - An error if the operation fails with a message containing the exception details.
 """
 function upsert_points(connection::QdrantConnection, collection_name::String, points::Vector{QdrantRestApi.QdrantPointStruct})
-    api = Qdrant.PointsApi(connection.client)
+    api = QdrantRestApi.PointsApi(connection.client)
 
     # Encapsulate points in a QdrantPointsList
     point_list = QdrantRestApi.QdrantPointsList(points=points)
@@ -47,6 +46,27 @@ function upsert_points(connection::QdrantConnection, collection_name::String, po
         end
     catch e
         @error "Failed to create collection" exception = (e, catch_backtrace())
+        rethrow(e)
+    end
+end
+
+
+
+function search_points(connection::QdrantConnection, collection_name::String, query::QdrantRestApi.QdrantSearchRequest)
+    api = QdrantRestApi.PointsApi(connection.client)
+
+    try
+        response, _ = QdrantRestApi.search_points(api, collection_name, qdrant_search_request=query)
+
+        if isa(response, QdrantRestApi.QdrantSearchPoints200Response)
+            return (time=response.time, status=response.status, result=response.result)
+        elseif isa(response, QdrantRestApi.QdrantErrorResponse)
+            return (time=response.time, status=Dict("error" => response.status.error), result=nothing)
+        else
+            error("Unexpected response type: $(typeof(response))")
+        end
+    catch e
+        @error "Failed to search points" exception = (e, catch_backtrace())
         rethrow(e)
     end
 end

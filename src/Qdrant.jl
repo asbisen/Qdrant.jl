@@ -4,8 +4,8 @@ import OpenAPI.Clients: Client
 
 # import the generated OpenAPI client code
 include("../codegen/src/QdrantRestApi.jl")
-using Reexport
-@reexport using .QdrantRestApi
+# using Reexport
+# @reexport using .QdrantRestApi
 
 
 export QdrantConnection
