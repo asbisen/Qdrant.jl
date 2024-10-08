@@ -25,4 +25,6 @@ export QdrantHnswConfig,
     QdrantPointStruct,
     QdrantPointsList,
     QdrantShardKeySelector,
-    QdrantSearchRequest
+    QdrantSearchRequest,
+    QdrantReadConsistency,
+    QdrantFilter

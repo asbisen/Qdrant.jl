@@ -416,3 +416,48 @@ function QdrantSearchRequest(vector::Any, limit::Int;
         score_threshold=score_threshold
     )
 end
+
+
+
+"""
+    QdrantReadConsistency(; value="majority")
+
+Create a configuration for read consistency in Qdrant.
+
+# Arguments
+- `value::String="majority"`: The read consistency level. Must be one of "quorum", "majority", or "all".
+
+# Returns
+A `QdrantReadConsistency` object with the specified consistency level.
+
+# Throws
+- `ArgumentError`: If an invalid consistency level is provided.
+
+# Example
+```julia
+# Create a QdrantReadConsistency with default majority level
+default_consistency = QdrantReadConsistency()
+
+# Create a QdrantReadConsistency with quorum level
+quorum_consistency = QdrantReadConsistency(value="quorum")
+```
+"""
+function QdrantReadConsistency(value="majority")
+    valid_values = ["quorum", "majority", "all"]
+    if !(value in valid_values)
+        throw(ArgumentError("Invalid value. Must be one of: $(join(valid_values, ", "))"))
+    end
+    return QdrantRestApi.QdrantReadConsistency(value)
+end
+
+
+
+
+function QdrantFilter(;
+    should::Union{Nothing, Vector{Dict{String, Any}}}=nothing,
+    min_should::Union{Nothing, Vector{Dict{String, Any}}}=nothing,
+    must::Union{Nothing, Vector{Dict{String, Any}}}=nothing,
+    must_not::Union{Nothing, Vector{Dict{String, Any}}}=nothing)
+
+    return QdrantRestApi.QdrantFilter(should=should, min_should=min_should, must=must, must_not=must_not)
+end

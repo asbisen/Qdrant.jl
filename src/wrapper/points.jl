@@ -52,7 +52,32 @@ end
 
 
 
-function search_points(connection::QdrantConnection, collection_name::String, query::QdrantRestApi.QdrantSearchRequest)
+"""
+    search_points(connection::QdrantConnection, collection_name::String,
+                  query::QdrantRestApi.QdrantSearchRequest;
+                  consistency::QdrantRestApi.QdrantReadConsistency = QdrantReadConsistency())
+
+Searches for points in a specified Qdrant collection based on the given query.
+
+# Arguments
+- `connection::QdrantConnection`: The connection object to the Qdrant database.
+- `collection_name::String`: The name of the collection to search in.
+- `query::QdrantRestApi.QdrantSearchRequest`: The search query.
+- `consistency::QdrantRestApi.QdrantReadConsistency`: The read consistency level (default: QdrantReadConsistency("majority")).
+
+# Returns
+- A tuple containing:
+  - `time`: The time taken by the operation.
+  - `status`: The status of the operation, with error details if applicable.
+  - `result`: The search results if successful; otherwise `nothing`.
+
+# Throws
+- An error if the operation fails with a message containing the exception details.
+"""
+function search_points(connection::QdrantConnection, collection_name::String,
+    query::QdrantRestApi.QdrantSearchRequest;
+    consistency::QdrantRestApi.QdrantReadConsistency = QdrantReadConsistency() )
+
     api = QdrantRestApi.PointsApi(connection.client)
 
     try

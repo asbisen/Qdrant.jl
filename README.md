@@ -60,4 +60,22 @@ res = upsert_points(conn, collection_name, [point])
 # Search for a vector
 query = Qdrant.QdrantSearchRequest(rand(128), 25; score_threshold=0.2, with_vector=false)
 r = search_points(conn, collection_name, query)
+
+
+# Search for vectors with filter
+filter = QdrantFilter(
+    should = [
+        Dict("key" => "color",   "match" => Dict("value" => "blue")),
+        Dict("key" => "country", "match" => Dict("value" => "Canada"))
+    ],
+    must = [
+        Dict("key" => "bool", "match" => Dict("value" => true))
+    ],
+    must_not = [
+        Dict("key" => "age",  "range" => Dict("lt" => 50))
+        ]
+)
+
+query = Qdrant.QdrantSearchRequest(rand(128), 5; with_vector=false, filter=filter)
+r = search_points(conn, collection_name, query)
 ```

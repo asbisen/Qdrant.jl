@@ -272,7 +272,7 @@ function create_collection(connection::QdrantConnection, collection_name::String
     hnsw_config::QdrantRestApi.QdrantHnswConfig=QdrantHnswConfig(),
     wal_config::QdrantRestApi.QdrantWalConfigDiff=QdrantWalConfigDiff(),
     optimizers_config::QdrantRestApi.QdrantOptimizersConfig=QdrantOptimizersConfig(),
-    init_from::Union{Nothing,String}=nothing,
+    init_from::Union{Nothing,QdrantRestApi.QdrantInitFrom}=nothing,
     quantization_config::Union{Nothing,QdrantRestApi.QdrantScalarQuantization}=QdrantScalarQuantization(),
     sparse_vectors::Union{Nothing,Dict{String,QdrantRestApi.QdrantSparseVectorParams}}=nothing)
 
