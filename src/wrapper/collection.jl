@@ -2,7 +2,7 @@
 using JSON3
 using OpenAPI
 using OpenAPI.Clients: Client
-using Qdrant: QdrantApi
+using Qdrant
 
 
 """
@@ -26,8 +26,8 @@ collections = get_collections(connection)
 ```
 """
 function get_collections(connection::QdrantConnection)
-    collections_api = QdrantApi.CollectionsApi(connection.client)
-    response, _ = QdrantApi.get_collections(collections_api)
+    collections_api = QdrantRestApi.CollectionsApi(connection.client)
+    response, _ = QdrantRestApi.get_collections(collections_api)
 
     # Parse the JSON response
     parsed_response = JSON3.read(JSON3.write(response))
@@ -100,10 +100,10 @@ collection_info = get_collection(connection, "my_collection")
 ```
 """
 function get_collection(connection::QdrantConnection, collection_name::String)
-    collections_api = QdrantApi.CollectionsApi(connection.client)
+    collections_api = QdrantRestApi.CollectionsApi(connection.client)
 
     try
-        response, _ = QdrantApi.get_collection(collections_api, collection_name)
+        response, _ = QdrantRestApi.get_collection(collections_api, collection_name)
 
         # Parse the JSON response
         parsed_response = JSON3.read(JSON3.write(response))
@@ -150,11 +150,11 @@ success = delete_collection(connection, "my_collection", timeout=30)
 ```
 """
 function delete_collection(connection::QdrantConnection, collection_name::String; timeout::Int=60)
-    collections_api = QdrantApi.CollectionsApi(connection.client)
+    collections_api = QdrantRestApi.CollectionsApi(connection.client)
 
     try
         # Attempt to delete the collection
-        response, _ = QdrantApi.delete_collection(collections_api, collection_name; timeout=timeout)
+        response, _ = QdrantRestApi.delete_collection(collections_api, collection_name; timeout=timeout)
 
         # Parse the JSON response
         parsed_response = JSON3.read(JSON3.write(response))
@@ -181,67 +181,102 @@ end
 
 
 """
-    create_collection(connection::QdrantConnection, collection_name::String, vectors_config::Qdrant.QdrantVectorParams,
-        shard_number::Union{Nothing,Int}=1,
-        sharding_method::Union{Nothing,Qdrant.QdrantShardingMethod}=nothing,
-        replication_factor::Union{Nothing,Int}=1,
-        write_consistency_factor::Union{Nothing,Int}=nothing,
-        on_disk_payload::Union{Nothing,Bool}=false,
-        hnsw_config::Union{Nothing,Qdrant.QdrantHnswConfig}=nothing,
-        wal_config::Union{Nothing,Qdrant.QdrantWalConfigDiff}=nothing,
-        optimizers_config::Union{Nothing,Qdrant.QdrantOptimizersConfigDiff}=nothing,
-        init_from::Union{Nothing,Qdrant.QdrantInitFrom}=nothing,
-        quantization_config::Union{Nothing,Qdrant.QdrantScalarQuantization}=nothing,
-        sparse_vectors::Union{Nothing,Dict{String,Qdrant.QdrantSparseVectorParams}}=nothing
-    ) -> Bool
+    create_collection(connection::QdrantConnection, collection_name::String; kwargs...)
 
-Creates a new collection in the Qdrant database.
+Create a new collection in Qdrant with configurable parameters.
 
 # Arguments
-- `connection::QdrantConnection`: The connection to the Qdrant database.
+- `connection::QdrantConnection`: The connection to Qdrant.
 - `collection_name::String`: The name of the collection to create.
-- `vectors_config::Qdrant.QdrantVectorParams`: Configuration for the vector parameters.
-- `shard_number::Union{Nothing,Int}=1`: Number of shards in the collection.
-- `sharding_method::Union{Nothing,Qdrant.QdrantShardingMethod}=nothing`: Method of sharding.
-- `replication_factor::Union{Nothing,Int}=1`: Number of replicas for each shard.
-- `write_consistency_factor::Union{Nothing,Int}=nothing`: Minimal number of replicas to consider write successful.
-- `on_disk_payload::Union{Nothing,Bool}=false`: Whether to store payload on disk.
-- `hnsw_config::Union{Nothing,Qdrant.QdrantHnswConfig}=nothing`: Configuration for the HNSW index.
-- `wal_config::Union{Nothing,Qdrant.QdrantWalConfigDiff}=nothing`: Write-Ahead-Log configuration.
-- `optimizers_config::Union{Nothing,Qdrant.QdrantOptimizersConfigDiff}=nothing`: Custom params for optimizer.
-- `init_from::Union{Nothing,Qdrant.QdrantInitFrom}=nothing`: Use data stored in another collection to initialize this collection.
-- `quantization_config::Union{Nothing,Qdrant.QdrantScalarQuantization}=nothing`: Quantization configuration.
-- `sparse_vectors::Union{Nothing,Dict{String,Qdrant.QdrantSparseVectorParams}}=nothing`: Configuration for sparse vectors.
+- `vectors_config::QdrantRestApi.QdrantVectorParams=QdrantVectorParams()`: Configuration for vectors in the collection. Defaults to a `QdrantVectorParams` object with:
+  - `size`: 768
+  - `distance`: "Dot" (can be one of "Cosine", "Manhattan", "Euclid", "Dot")
+  - `hnsw_config`: `nothing`
+  - `quantization_config`: `nothing`
+  - `on_disk`: `false`
+  - `datatype`: `nothing`
+  - `multivector_config`: `nothing`
+- `shard_number::Int=1`: The number of shards for the collection. Default is 1.
+- `sharding_method::QdrantRestApi.QdrantShardingMethod=QdrantShardingMethod()`: Method for shard distribution. Defaults to "auto" (can be "auto", "custom").
+- `replication_factor::Int=1`: The number of replicas each shard will have. Default is 1, meaning no replication.
+- `write_consistency_factor::Union{Nothing,Int}=nothing`: Level of write consistency. `nothing` allows default behavior.
+- `on_disk_payload::Union{Nothing,Bool}=false`: Whether payload should be on disk (`true`) or in memory (`false`). Default is `false`.
+- `hnsw_config::QdrantRestApi.QdrantHnswConfig=QdrantHnswConfig()`: Configuration for the HNSW index. Defaults to a `QdrantHnswConfig` object with:
+  - `on_disk`: `false`
+  - `m`: 16
+  - `ef_construct`: 100
+  - `full_scan_threshold`: 10000
+  - `max_indexing_threads`: 0 (automatic selection)
+  - `payload_m`: `nothing`
+- `wal_config::QdrantRestApi.QdrantWalConfigDiff=QdrantWalConfigDiff()`: Write-Ahead Log configuration. Default values:
+  - `wal_capacity_mb`: `nothing`
+  - `wal_segments_ahead`: `nothing`
+- `optimizers_config::QdrantRestApi.QdrantOptimizersConfig=QdrantOptimizersConfig()`: Optimizers configuration with default settings:
+  - `deleted_threshold`: `nothing`
+  - `vacuum_min_vector_number`: `nothing`
+  - `default_segment_number`: `nothing`
+  - `max_segment_size`: `nothing`
+  - `memmap_threshold`: `nothing`
+  - `indexing_threshold`: `nothing`
+  - `flush_interval_sec`: `nothing`
+  - `max_optimization_threads`: `nothing`
+- `init_from::Union{Nothing,String}=nothing`: Option to initialize from an existing collection. Default is `nothing`, indicating a fresh start.
+- `quantization_config::Union{Nothing,QdrantRestApi.QdrantScalarQuantization}=QdrantScalarQuantization()`: Scalar quantization settings. Default is `none`.
+- `sparse_vectors::Union{Nothing,Dict{String,QdrantRestApi.QdrantSparseVectorParams}}=nothing`: Sparse vector parameters are optional and default to `nothing`.
 
 # Returns
-- `Bool`: `true` if the collection was successfully created, `false` if it already exists.
+A named tuple containing:
+- `time::Float64`: The elapsed time for the operation.
+- `status::Union{String,Dict{String,String}}`: Operation status, either a success message or an error message.
+- `result::Union{Bool,Nothing}`: True if successful, `nothing` if an error occurred.
 
 # Throws
-- `ErrorException`: If there's an error in the API response.
+- `Exception`: Raised if unforeseen errors occur during the API call.
 
-# Example
+# Usage Example
 ```julia
-connection = QdrantConnection("http://localhost:6333")
-vectors_config = Qdrant.QdrantVectorParams(size=128, distance=Qdrant.QdrantDistance("Cosine"))
-success = create_collection(connection, "my_collection", vectors_config)
+# Create a QdrantConnection
+connection = QdrantConnection("your_qdrant_url", "your_api_key")
+
+# Default collection creation
+response = create_collection(connection, "default_collection")
+println(response)
+
+# Collection with custom vector configuration and HNSW settings
+vector_params = QdrantVectorParams(size=128, distance=QdrantDistance("Cosine"))
+hnsw_conf = QdrantHnswConfig(m=32, ef_construct=200, on_disk=true)
+response = create_collection(connection, "custom_collection";
+    vectors_config=vector_params,
+    hnsw_config=hnsw_conf,
+    shard_number=2,
+    replication_factor=2,
+    on_disk_payload=true
+)
+println(response)
+
+# Collection using custom quantization
+quant_config = QdrantScalarQuantizationConfig(type="uint8", quantile=0.8)
+response = create_collection(connection, "quantized_collection";
+    quantization_config=QdrantScalarQuantization(quant_config)
+)
+println(response)
 ```
 """
-function create_collection(connection::QdrantConnection, collection_name::String, vectors_config::QdrantApi.QdrantVectorParams,
-    shard_number::Union{Nothing,Int}=1,
-    sharding_method::Union{Nothing,QdrantApi.QdrantShardingMethod}=nothing,
-    replication_factor::Union{Nothing,Int}=1,
+function create_collection(connection::QdrantConnection, collection_name::String;
+    vectors_config::QdrantRestApi.QdrantVectorParams=QdrantVectorParams(),
+    shard_number::Int=1,
+    sharding_method::QdrantRestApi.QdrantShardingMethod=QdrantShardingMethod(),
+    replication_factor::Int=1,
     write_consistency_factor::Union{Nothing,Int}=nothing,
     on_disk_payload::Union{Nothing,Bool}=false,
-    hnsw_config::Union{Nothing,QdrantApi.QdrantHnswConfig}=nothing,
-    wal_config::Union{Nothing,QdrantApi.QdrantWalConfigDiff}=nothing,
-    optimizers_config::Union{Nothing,QdrantApi.QdrantOptimizersConfigDiff}=nothing,
-    init_from::Union{Nothing,QdrantApi.QdrantInitFrom}=nothing,
-    quantization_config::Union{Nothing,QdrantApi.QdrantScalarQuantization}=nothing,
-    sparse_vectors::Union{Nothing,Dict{String,QdrantApi.QdrantSparseVectorParams}}=nothing
-)
-    collection = QdrantApi.CollectionsApi(connection.client)
+    hnsw_config::QdrantRestApi.QdrantHnswConfig=QdrantHnswConfig(),
+    wal_config::QdrantRestApi.QdrantWalConfigDiff=QdrantWalConfigDiff(),
+    optimizers_config::QdrantRestApi.QdrantOptimizersConfig=QdrantOptimizersConfig(),
+    init_from::Union{Nothing,String}=nothing,
+    quantization_config::Union{Nothing,QdrantRestApi.QdrantScalarQuantization}=QdrantScalarQuantization(),
+    sparse_vectors::Union{Nothing,Dict{String,QdrantRestApi.QdrantSparseVectorParams}}=nothing)
 
-    create_collection_obj = QdrantApi.QdrantCreateCollection(
+    create_collection_obj = QdrantRestApi.QdrantCreateCollection(
         vectors_config,
         shard_number,
         sharding_method,
@@ -256,103 +291,21 @@ function create_collection(connection::QdrantConnection, collection_name::String
         sparse_vectors
     )
 
+    api = QdrantRestApi.CollectionsApi(connection.client)
+
     try
-        response, _ = QdrantApi.create_collection(collection, collection_name, qdrant_create_collection=create_collection_obj)
+        response, http_response = QdrantRestApi.create_collection(api, collection_name, qdrant_create_collection=create_collection_obj)
 
-        # Parse the JSON response
-        parsed_response = JSON3.read(JSON3.write(response))
-
-        # Check if the status is "ok" and result is true
-        if get(parsed_response, :status, "") == "ok" && get(parsed_response, :result, false) == true
-            return true
+        # Parse the response based on its type
+        if isa(response, QdrantRestApi.QdrantCreateShardKey200Response)
+            return (time=response.time, status=response.status, result=response.result)
+        elseif isa(response, QdrantRestApi.QdrantErrorResponse)
+            return (time=response.time, status=Dict("error" => response.status.error), result=nothing)
         else
-            # If status is not "ok", check for an error message
-            status = get(parsed_response, :status, nothing)
-
-            if status isa AbstractDict && haskey(status, :error)
-                error_message = status[:error]
-                throw(ErrorException("Qdrant API error: $error_message"))
-            else
-                throw(ErrorException("Unexpected response format from Qdrant API"))
-            end
+            error("Unexpected response type: $(typeof(response))")
         end
-
     catch e
-        if e isa OpenAPI.Clients.ApiException
-            @warn "API error when creating collection: $(e.reason)"
-        else
-            @debug "Unexpected error when creating collection: $(e)"
-        end
-        return false
+        @error "Failed to create collection" exception = (e, catch_backtrace())
+        rethrow(e)
     end
-end
-
-
-
-"""
-    create_collection(connection::QdrantConnection, collection_name::String;
-        distance::String="Cosine",
-        vector_size::Int=768,
-        hnsw_on_disk::Bool=false,
-        memmap_threshold::Int=20000,
-        scalar_quantization_type::String="int8",
-        quantization_config_always_ram::Bool=true)
-
-Creates a new collection in the Qdrant database with specified parameters.
-
-# Arguments
-- `connection::QdrantConnection`: The connection to the Qdrant database.
-- `collection_name::String`: The name of the collection to create.
-- `distance::String="Cosine"`: The distance metric to use. Must be one of "Euclid", "Cosine", "Dot", or "Manhattan".
-- `vector_size::Int=768`: The size of the vectors in the collection.
-- `hnsw_on_disk::Bool=false`: Whether to store HNSW index on disk.
-- `memmap_threshold::Int=20000`: The threshold for memory mapping.
-- `scalar_quantization_type::String="int8"`: The type of scalar quantization to use. (Should always be "int8" for now.)
-- `quantization_config_always_ram::Bool=true`: Whether to always keep quantization data in RAM.
-
-# Returns
-- The result of the `create_collection` function call.
-
-# Throws
-- `ArgumentError`: If an invalid distance metric is provided.
-
-# Example
-```julia
-connection = QdrantConnection("http://localhost:6333")
-create_collection(connection, "my_collection", distance="Euclid", vector_size=512)
-```
-"""
-function create_collection(connection::QdrantConnection, collection_name::String;
-    distance::String="Cosine",
-    vector_size::Int=768,
-    hnsw_on_disk::Bool=false,
-    memmap_threshold::Int=20000,
-    scalar_quantization_type::String="int8",
-    quantization_config_always_ram::Bool=true)
-
-    # Check if distance is valid
-    valid_distances = ["Euclid", "Cosine", "Dot", "Manhattan"]
-    if !(distance in valid_distances)
-        throw(ArgumentError("Invalid distance: $distance. Must be one of $valid_distances"))
-    end
-
-    distance = QdrantApi.QdrantDistance(distance)
-    vectors_config = QdrantApi.QdrantVectorParams(size=vector_size, distance=distance)
-    optimizer_config = QdrantApi.QdrantOptimizersConfigDiff(memmap_threshold=memmap_threshold)
-    scalar = QdrantApi.QdrantScalarQuantizationConfig(type=scalar_quantization_type, always_ram=quantization_config_always_ram)
-    quantization_config = QdrantApi.QdrantScalarQuantization(scalar=scalar)
-    hnsw_config = QdrantApi.QdrantHnswConfig(on_disk=hnsw_on_disk)
-
-    create_collection(connection, collection_name, vectors_config,
-        1, nothing, # shard
-        nothing, # replication_factor
-        nothing, # write_consistency_factor
-        nothing, # on_disk_payload
-        hnsw_config,
-        nothing, # wal_config
-        optimizer_config,
-        nothing, # init_from
-        quantization_config,
-        nothing # sparse_vectors
-    )
 end

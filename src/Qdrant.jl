@@ -1,9 +1,11 @@
 module Qdrant
-
 import OpenAPI.Clients: Client
 
-include("QdrantApi.jl")
-import Qdrant: QdrantApi
+
+# import the generated OpenAPI client code
+include("../codegen/src/QdrantRestApi.jl")
+using Reexport
+@reexport using .QdrantRestApi
 
 
 export QdrantConnection
@@ -19,7 +21,7 @@ end
 QdrantConnection(host::String, port::Int) = QdrantConnection("http://$host:$port")
 
 
-include("wrapper/Wrapper.jl")
+include("wrapper/wrapper.jl")
 
 
 end # module Qdrant

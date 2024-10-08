@@ -6,3 +6,8 @@ export get_collections,
     delete_collection,
     collection_exists,
     create_collection
+
+include("points.jl")
+export upsert_points
+
+include("structs.jl")
